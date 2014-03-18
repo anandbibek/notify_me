@@ -282,7 +282,9 @@ public class MainActivity extends Activity {
 				final View view = ((LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.main_menu_popup, null);
 				if( android.os.Build.VERSION.SDK_INT >= 11 )
 					view.findViewById(R.id.main_menu_popup_background).setVisibility(View.GONE);
-				((CheckBox)view.findViewById(R.id.main_menu_popup_background_checkbox)).setChecked(prefs.isBackgroundColorInverted());
+
+                ((CheckBox)view.findViewById(R.id.main_menu_popup_background_checkbox)).setChecked(prefs.isBackgroundColorInverted());
+
 				view.findViewById(R.id.main_menu_popup_background_caption).setOnClickListener(
 					new View.OnClickListener() {
 						@Override
@@ -291,8 +293,10 @@ public class MainActivity extends Activity {
 						}
 					}
 				);
+
 				((CheckBox)view.findViewById(R.id.main_menu_popup_orientation_checkbox)).setChecked(prefs.isOrientationFixed());
-				view.findViewById(R.id.main_menu_popup_orientation_caption).setOnClickListener(
+
+                view.findViewById(R.id.main_menu_popup_orientation_caption).setOnClickListener(
 					new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {

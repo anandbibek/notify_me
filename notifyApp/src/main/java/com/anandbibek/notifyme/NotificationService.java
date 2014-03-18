@@ -52,15 +52,25 @@ public class NotificationService extends AccessibilityService {
 	@Override
 	public void onAccessibilityEvent(AccessibilityEvent event) {
 		((TemporaryStorage)getApplicationContext()).accessGranted(true);
+
+        //filter out events which are not notifications
 		if( !event.getClassName().equals("android.app.Notification") )
 			return;
-		if( filterMatch(event, true) ){
+
+        if( filterMatch(event, true) ){
+            //jump down to trigger if aggressive popup is allowed
 			if( prefs.isAggressive(filter) );
+
+            //do not trigger otherwise if screen on and not on lockscreen
 			else if( ((PowerManager)getSystemService(POWER_SERVICE)).isScreenOn() && !((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode() )
 				return;
+
 		}else
 			return;
-		if( filterMatch(event, false) && ( prefs.isDuringCallAllowed(filter) || ((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getCallState() == 0 ) ) triggerNotification(event);
+
+        //if during call allowed, or no call ongoing, trigger!
+		if( filterMatch(event, false) && ( prefs.isDuringCallAllowed(filter) || ((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getCallState() == 0 ) )
+            triggerNotification(event);
 	}
 
 	@SuppressLint("NewApi")
@@ -139,7 +149,7 @@ public class NotificationService extends AccessibilityService {
 				iFilter.addAction(Intent.ACTION_SCREEN_ON);
 				registerReceiver(receiver, iFilter);
 			}else{
-				startActivity(new Intent(this, LightUp.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
+				startActivity(new Intent(this, LightUp.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 			}
 		}
 	}
