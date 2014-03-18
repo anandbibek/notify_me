@@ -32,13 +32,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.GestureDetector;
+import android.view.*;
 import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.Surface;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
 import android.widget.RemoteViews;
 
@@ -60,7 +55,10 @@ public class NotificationActivityTransparent extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		screenWasOff = getIntent().getBooleanExtra("screenWasOff", false);
-		getWindow().setFlags(LayoutParams.FLAG_TURN_SCREEN_ON, LayoutParams.FLAG_TURN_SCREEN_ON);
+
+        if(!getIntent().getBooleanExtra("screenCovered", false))
+		    getWindow().setFlags(LayoutParams.FLAG_TURN_SCREEN_ON, LayoutParams.FLAG_TURN_SCREEN_ON);
+
 		getWindow().setFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED, LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 		prefs = new Prefs(this);
 		if( prefs.isOrientationFixed() ){
@@ -157,7 +155,7 @@ public class NotificationActivityTransparent extends Activity {
 	
 	@SuppressWarnings("deprecation")
 	private void showPopupSlider(){
-        pView = (ViewGroup) ((LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.slider_popup, null);
+		pView = (ViewGroup) ((LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.slider_popup, null);
 		nView = remViews.apply(this, pView);
 		pView.addView(nView, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		sView = (SliderSurfaceView) pView.getChildAt(1);
@@ -297,6 +295,7 @@ public class NotificationActivityTransparent extends Activity {
 			if( sView.dist(a, b) < sView.offsetY ){
 				touchValid = true;
 				triggers = true;
+                sView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			}
 			return touchValid;
 		}

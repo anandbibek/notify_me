@@ -32,13 +32,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.GestureDetector;
+import android.view.*;
 import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.Surface;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
 import android.widget.RemoteViews;
 
@@ -60,7 +55,8 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		screenWasOff = getIntent().getBooleanExtra("screenWasOff", false);
-		getWindow().setFlags(LayoutParams.FLAG_TURN_SCREEN_ON, LayoutParams.FLAG_TURN_SCREEN_ON);
+        if(!getIntent().getBooleanExtra("screenCovered", false))
+		    getWindow().setFlags(LayoutParams.FLAG_TURN_SCREEN_ON, LayoutParams.FLAG_TURN_SCREEN_ON);
 		getWindow().setFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED, LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 		prefs = new Prefs(this);
 		if( prefs.isOrientationFixed() ){
@@ -180,7 +176,7 @@ public class NotificationActivity extends Activity {
 		dTask = new DrawTask();
 		dTask.execute();
 		dialog.show();
-	}
+    }
 	
 	@SuppressLint("NewApi")
 	private void showPopupButton(){
@@ -297,6 +293,7 @@ public class NotificationActivity extends Activity {
 			if( sView.dist(a, b) < sView.offsetY ){
 				touchValid = true;
 				triggers = true;
+                sView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 			}
 			return touchValid;
 		}
