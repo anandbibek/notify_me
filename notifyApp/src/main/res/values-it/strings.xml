@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<resources> 
+  
+    <string name="app_name">Notify Me!</string> 
+    <string name="title_activity_edit_filter">Modifica Lista</string> 
+    <string name="editor_app_chooser_title">Scegli un app</string> 
+    <string name="editor_keywords_title">Filtro parola</string> 
+    <string name="editor_keywords_description">Le keyword possono essere parole o frasi, inserire una parola/frase per riga.</string> 
+    <string name="editor_keywords_blacklist">Blacklist - non saranno mostrate le notifiche che contengono una di queste parole</string> 
+    <string name="editor_keywords_whitelist">Whitelist - solo le notifiche con almeno una di queste parole saranno mostrate</string> 
+    <string name="editor_popup_title">Mostra popup</string> 
+    <string name="editor_popup_description">Mostra popup per le notifiche generate da questa applicazione.</string> 
+    <string name="editor_aggressive_title">Popup aggressivi popups</string> 
+    <string name="editor_aggressive_description">Consente ai popup di comparire anche se lo schermo &#232; acceso e sbloccato. Questo potrebbe interrompere il proprio lavoro, utilizzare questa opzione con attenzione.</string> 
+    <string name="editor_expansion_title">Permetti espansione</string> 
+    <string name="editor_expansion_description">Permette l\'espansione delle notifiche che hanno bisogno di pi&#249; spazio per la visione.</string> 
+    <string name="editor_expanded_title">Espanse di default</string> 
+    <string name="editor_expanded_description">Espande le notifiche che hanno bisogno di pi&#249; spazio non appena arrivano.</string> 
+    <string name="editor_lightup_title">Accendi display</string> 
+    <string name="editor_lightup_description">Fa accendere lo schermo quando una notifica di quest\'app arriva.</string> 
+    <string name="editor_duringcall_title">Notifica durante una chiamata</string> 
+    <string name="editor_duringcall_description">Permette le notifiche durante una chiamata. NON usare con l\'applicazione Telefono, causer&#224; un sacco di problemi!</string> 
+    <string name="editor_menu_apply">Esci salvando i cambiamenti</string> 
+    <string name="editor_menu_apply0">Esci aggiungendo l\'elemento</string> 
+    <string name="editor_menu_discard">Esci scartando i cambiamenti</string> 
+    <string name="editor_menu_discard0">Esci scartando l\'elemento</string> 
+    <string name="editor_menu_remove">Rimuovi l\'elemento dalla lista</string> 
+    <string name="editor_leave_toast">Premi Indietro di nuovo per uscire senza salvare. Se non sono queste le tue intenzioni, controlla il il menu delle opzioni.</string> 
+    <string name="editor_nonsense_toast1">Se non vuoi aggiungere nessuna azione, forse si dovrebbe uscire senza aggiungere questa app nella lista.</string> 
+    <string name="editor_nonsense_toast2">Se non vuoi aggiungere nessuna azione per la notifica di questa app, forse si dovrebbe rimuovere dalla lista.</string> 
+    <string name="title_activity_app_picker">Seleziona App</string> 
+    <string name="app_picker_retrieve">Aggiorno la lista app&#8230;</string> 
+    <string name="app_picker_duplicate">Questa app &#232; gi&#224; nella lista.</string> 
+    <string name="main_remove_title1">Rimuovere</string> 
+    <string name="main_remove_title2">dalla lista?</string> 
+    <string name="main_remove_ok">Rimuovi</string> 
+    <string name="main_remove_cancel">Annulla</string> 
+    <string name="main_add_to_list">Aggiungi un app</string> 
+    <string name="main_check_checking">Non so se AccessibilityService sia in esecuzione, fammi controllare&#8230;</string> 
+    <string name="main_check_good_message">AccessibilityService &#232; in esecuzione e Notify Me! pu&#242; fare il suo lavoro.</string> 
+    <string name="main_check_good_button">Cominciamo!</string> 
+    <string name="main_check_bad_message">Sembra che AccessibilityService non sia in esecuzione. Per favore controlla che Notify Me! sia attivato nelle impostazioni di accessibilit&#224;.</string> 
+    <string name="main_check_bad_message0">\nSe ti sembra che questo messaggio sia comparso, potrebbe essersi verificato un bug su Android che impedisce il corretto avvio di AccessibilityService. Provare a disattivare e riattivare Notify Me! nelle impostazioni di accessibilit&#224;.</string> 
+    <string name="main_check_bad_button">Portami l&#236;!</string> 
+    <string name="main_menu_checkaccessibility">Controlla AccessibilityService</string> 
+    <string name="main_menu_popup">Preferenze Popup</string> 
+    <string name="main_menu_popup_background_title">Inverti il colore di sfondo</string> 
+    <string name="main_menu_popup_background_description">Se il colore dello sfondo del popup rende il testo di notifica illeggibile, prova a cambiare il colore dello sfondo.</string> 
+    <string name="main_menu_popup_timeout_title">Timeout schermo personalizzato</string> 
+    <string name="main_menu_popup_timeout_description">Imposta un timeout per lo schermo dopo che il popup &#232; comparso. Se il campo rimane vuoto o impostato a 0, saranno usate le impostazioni di sistema di Android.</string> 
+    <string name="main_menu_popup_orientation_title">Blocca rotazione</string> 
+    <string name="main_menu_popup_orientation_description">Non ruotare il popoup quando il dispositivo viene girato.</string> 
+    <string name="main_menu_popup_interface_title">Interfaccia Slider</string> 
+    <string name="main_menu_popup_interface_description">Mostra uno slider invece dei pulsanti per interagire con il popup.</string> 
+    <string name="main_menu_popup_color_description">Imposta il colore dello sfondo per lo slider</string> 
+    <string name="main_menu_popup_save_button">Salva</string> 
+    <string name="main_menu_popup_cancel_button">Annulla</string> 
+    <string name="main_menu_help">Aiuto</string> 
+    <string name="main_menu_help_message">Adesso che sei qui, dovresti almeno sapere che cosa fa questa app. Per funzionare, &#232; necessario che tu fornisca una lista di app che hanno il permesso di usare il servizi di Notify Me! Per fare ci&#242; aggiungi (\"Aggiungi un app\") o rimuovi (tap prolungato su un oggetto o tramite il menu nelle impostazioni) un app dalla lista. Le impostazioni di un elemento si raggiungono semplicemente selezionando l\'elemento stesso. Se Notify Me! non funziona come dovrebbe, prova a dare un\'occhiata al menu della schermata principale e prova a controllare che AccessibilityService sia in esecuzione.</string> 
+    <string name="main_menu_help_title">Come usare questa app</string> 
+    <string name="main_menu_help_ok_button">Capito!</string> 
+    <string name="main_menu_help_question_button">Ho una domanda&#8230;</string> 
+    <string name="main_menu_about">Riguardo questa app</string> 
+    <string name="main_menu_about_message">Un app per migliorare le notifiche di Android.\nCopyright &#169; 2013 Tom Kranz\nQuesto programma viene distribuito con NESSUNA GARANZIA. Questo &#232; un software libero, e sei il benvenuto a ridistribuirlo sotto le condizioni GPLv3 o (a tua scelta) versioni successive; visita <a href="http://www.gnu.org/licenses/">gnu.org/licenses</a> per maggiori informazioni.\nAndroid &#232; un marchio registrato di Google Inc.</string> 
+    <string name="main_menu_about_title">Riguardo Notify Me!</string> 
+    <string name="main_menu_about_ok_button">Okay, forte</string> 
+    <string name="notification_view_button">Visualizza</string> 
+    <string name="notification_dismiss_button">Rimuovi</string> 
+    <string name="notification_collapse_button">Comprimi</string> 
+    <string name="notification_expand_button">Espandi</string> 
+    <string name="accessibility_service_description">Attiva questo servizio per usare Notify Me!. In caso contrario, non sarebbe possibile monitorare tutte le notifiche, rendendo cos&#236; l\'applicazione inutile.</string> 
+  
+</resources> 

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Notify Me!</string>
+    <string name="title_activity_edit_filter">Liste Düzenleyici</string>
+    <string name="editor_app_chooser_title">Bir uygulama seçin</string>
+    <string name="editor_keywords_title">Anahtar kelime filtreleme</string>
+    <string name="editor_keywords_description">Anahtar kelimeler satır sonuyla sınırlandırılmış kelime veya cümle olabilir.</string>
+    <string name="editor_keywords_blacklist">Kara liste - anahtar kelimelerden birini içeren bildirimleri gösterme</string>
+    <string name="editor_keywords_whitelist">Beyaz liste - sadece anahtar kelimelerden birini içeren bildirimleri göster</string>
+    <string name="editor_popup_title">Açılır pencere göster</string>
+    <string name="editor_popup_description">Bu uygulamanın oluşturduğu bildirimleri açılır pencerede göster.</string>
+    <string name="editor_aggressive_title">Agresif açılır pencereler</string>
+    <string name="editor_aggressive_description">Ekran açık ve kilitsiz olmasına rağmen açılır pencere göster. Bu seçenek iş akışınızı bölebilir, dikkatli kullanın.</string>
+    <string name="editor_expansion_title">Genişletmeye izin ver</string>
+    <string name="editor_expansion_description">Daha büyük bir görünüm için bildirimleri genişletmeye izin ver.</string>
+    <string name="editor_expanded_title">Varsayılan olarak genişlet.</string>
+    <string name="editor_expanded_description">Bildirimler gösterildiği an daha büyük bir görünüm için genişlet.</string>
+    <string name="editor_lightup_title">Ekranı aç</string>
+    <string name="editor_lightup_description">Bu uygulama bildirim gösterdiğinde ekranı aç.</string>
+    <string name="editor_duringcall_title">Telefon görüşmesi sırasında bildirim göster</string>
+    <string name="editor_duringcall_description">Telefon görüşmesi sırasında bile bu uygulamaya izin ver. Bu seçeneği Telefon uygulamasıyla KULLANMAYIN, birçok sorunla karşılaşırsınız!</string>
+    <string name="editor_menu_apply">Değişiklikleri kaydederek çık</string>
+    <string name="editor_menu_apply0">Öğeyi kaydederek çık</string>
+    <string name="editor_menu_discard">Değişiklikleri gözardı ederek çık</string>
+    <string name="editor_menu_discard0">Öğeyi gözardı ederek çık</string>
+    <string name="editor_menu_remove">Öğeyi listeden kaldır</string>
+    <string name="editor_leave_toast">Kaydetmeden çıkmak için tekrar Geri tuşuna basın. Bunu istemiyorsanız seçenekler menüsüne bakmayı deneyin.</string>
+    <string name="editor_nonsense_toast1">Hiçbir eyleme izin vermek istemiyorsanız bu uygulamayı listeye eklemeden çıkın.</string>
+    <string name="editor_nonsense_toast2">Bu uygulamanın hiçbir bildirimine izin vermek istemiyorsanız, uygulamayı listeden çıkarınız.</string>
+    <string name="title_activity_app_picker">Uygulama Seçici</string>
+    <string name="app_picker_retrieve">Uygulama listesi alınıyor&#8230;</string>
+    <string name="app_picker_duplicate">Bu uygulama listede mevcut.</string>
+    <string name="main_remove_title1">Listeden</string>
+    <string name="main_remove_title2">uygulamasını kaldır?</string>
+    <string name="main_remove_ok">Kaldır</string>
+    <string name="main_remove_cancel">Vazgeç</string>
+    <string name="main_add_to_list">Uygulama ekle</string>
+    <string name="main_check_checking">Erişilebilirlik hizmetinin çalışıp çalışmadığını bilmiyorum. Bir kontrol edeyim&#8230;</string>
+    <string name="main_check_good_message">Erişilebilirlik hizmeti çalışıyor ve Notify Me! işini yapabilir.</string>
+    <string name="main_check_good_button">Tamamdır!</string>
+    <string name="main_check_bad_message">Erişilebilirlik hizmeti çalışmıyor görünmekte. Lütfen Notify Me! uygulamasının açık olup olmadığını kontrol edin.</string>
+    <string name="main_check_bad_message0">\nBuraya daha önce de girdiyseniz Android\'te Erişilebilirlik hizmetinin başlamasını engelleyen bir bug ile karşılaşıyor olabilirsiniz. Notify Me! uygulamasını Erişilebilirlik seçeneklerinde kapatıp tekrar açmayı deneyin.</string>
+    <string name="main_check_bad_button">Beni seçeneğe götür!</string>
+    <string name="main_menu_checkaccessibility">Erişilebilirliği Kontrol Et</string>
+    <string name="main_menu_popup">Açılır Pencere Ayarları</string>
+    <string name="main_menu_popup_background_title">Arka plan rengini ters çevir</string>
+    <string name="main_menu_popup_background_description">Açılır pencerenin arka plan rengi, yazının okunmasını engelliyorsa arka plan rengini tersine çevirmeyi deneyin.</string>
+    <string name="main_menu_popup_timeout_title">Ekran zaman aşımı</string>
+    <string name="main_menu_popup_timeout_description">Açılır pencere ekranı açtıktan sonra ekranın kapanması için bir süre belirleyin. Alanı boş bırakır veya 0 yazarsanız telefonun varsayılan değeri kullanılır.</string>
+    <string name="main_menu_popup_orientation_title">Kilit yönü</string>
+    <string name="main_menu_popup_orientation_description">Cihaz yana yatınca kilidin yönünü değiştirme.</string>
+    <string name="main_menu_popup_interface_title">Kaydırma arayüzü</string>
+    <string name="main_menu_popup_interface_description">Açılır pencerede tuşlar yerine kaydırma arayüzü göster.</string>
+    <string name="main_menu_popup_color_description">Kaydırma arayüzü için arka plan rengi belirle</string>
+    <string name="main_menu_popup_save_button">Kaydet</string>
+    <string name="main_menu_popup_cancel_button">Vazgeç</string>
+    <string name="main_menu_help">Yardım</string>
+    <string name="main_menu_help_message">Buraya kadar geldiğine göre en azından bu uygulamanın ne yaptığını öğrenmen gerek. Uygulamanın amacını gerçekleştirmen için Notify Me!\'nin hizmetlerini kullanmaya izinli bir uygulama listesi oluşturman gerek. Bunu (\"Bir uygulama ekle\") kısmından veya uygulama kaldırarak(uygulamanın üstüne basılı tutarak) yapabilirsin. Uygulamaya tıklayarak o uygulama için ayarlara ulaşabilirsin. Eğer Notify Me! gerektiği gibi çalışmıyorsa ana ekrandaki menüden Erişilebilirlik hizmetini kontrol etmen gerek.</string>
+    <string name="main_menu_help_title">Bu uygulamayı kullanma şekli</string>
+    <string name="main_menu_help_ok_button">Anladım!</string>
+    <string name="main_menu_help_question_button">Bir sorum daha var&#8230;</string>
+    <string name="main_menu_about">Bu uygulama hakkında</string>
+    <string name="main_menu_about_message">Android\'in bildirim gösterme yeteneklerini geliştirme amaçlı bir uygulama.\nCopyright &#169; 2013 Tom Kranz\nBu uygulamanın hiçbir garantisi yoktur. Bu uygulama ücretsizdir ve GPLv3 veya sonraki sürümlerin lisansı altında dağıtılabilir; Ayrıntılar için <a href="http://www.gnu.org/licenses/">gnu.org/licenses</a> adresine tıkla.\nAndroid Google Inc.\'in telif haklı bir markasıdır.</string>
+    <string name="main_menu_about_title">Notify Me! Hakkında</string>
+    <string name="main_menu_about_ok_button">Tamam, güzel.</string>
+    <string name="notification_view_button">Görüntüle</string>
+    <string name="notification_dismiss_button">Kapat</string>
+    <string name="notification_collapse_button">Daralt</string>
+    <string name="notification_expand_button">Genişlet</string>
+    <string name="accessibility_service_description">Bu hizmeti Notify Me! için aç. Yoksa hiçbir bildirimi kaydedemeyeceği için uygulamanın bir işlevi kalmaz.</string>
+
+</resources>
