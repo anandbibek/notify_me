@@ -108,7 +108,11 @@ public class LightUp extends Activity implements SensorEventListener {
 		protected void onPostExecute(Boolean result){
 			if( prefs.isPopupAllowed(((TemporaryStorage)getApplicationContext()).getFilter()) && result ){
 				((TemporaryStorage)getApplicationContext()).storeStuff( true );
-				startActivity( new Intent(getApplicationContext(), ( ((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode() ? NotificationActivity.class : NotificationActivityTransparent.class ) ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("screenWasOff", true).putExtra("screenCovered",mCovered) );
+
+				startActivity( new Intent(getApplicationContext(), NotificationActivity.class )
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .putExtra("screenWasOff", true)
+                        .putExtra("screenCovered", mCovered) );
 			}
 			finish();
 			if( !result ) {

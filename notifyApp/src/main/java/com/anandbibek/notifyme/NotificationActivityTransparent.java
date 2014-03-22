@@ -48,6 +48,7 @@ public class NotificationActivityTransparent extends Activity {
 	ViewGroup pView;
 	SliderSurfaceView sView;
 	float X, lastX;
+    boolean lHaptic,rHaptic;
 	DrawTask dTask;
 	GestureDetector geDet;
 	AlertDialog dialog;
@@ -140,7 +141,10 @@ public class NotificationActivityTransparent extends Activity {
 			finish();
 			return false;
 		}
-		dialog = new AlertDialog.Builder(this).setView(pView).setInverseBackgroundForced(prefs.isBackgroundColorInverted()).create();
+		dialog = new AlertDialog.Builder(this)
+                .setView(pView)
+                .setInverseBackgroundForced(prefs.isBackgroundColorInverted())
+                .create();
 		dialog.setCanceledOnTouchOutside(false);
 		dialog.setOnCancelListener(
 			new DialogInterface.OnCancelListener() {
@@ -271,7 +275,25 @@ public class NotificationActivityTransparent extends Activity {
 				while( sView.onDisplay && !this.isCancelled() ){
 					if( lastX != X ){
 						sView.doDraw(X, touchValid);
-						if( !touchValid ){
+                        if(lastX>sView.leftX && X<=sView.leftX && !lHaptic) {
+                            sView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                            lHaptic=true;
+                        }
+
+                        if(lastX<sView.rightX && X>=sView.rightX && !rHaptic) {
+                            sView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                            rHaptic=true;
+                        }
+
+
+                        if(lHaptic && X>sView.leftX )
+                            lHaptic=false;
+                        if(rHaptic && X<sView.rightX)
+                            rHaptic=false;
+
+
+
+                        if( !touchValid ){
 							lastX = X;
 							X = sView.centerX;
 						}
@@ -296,6 +318,8 @@ public class NotificationActivityTransparent extends Activity {
 				touchValid = true;
 				triggers = true;
                 sView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                lHaptic = false;
+                rHaptic = false;
 			}
 			return touchValid;
 		}
@@ -317,8 +341,24 @@ public class NotificationActivityTransparent extends Activity {
 		@Override
 		public void onLongPress(MotionEvent ev){
 		}
-		
-		@SuppressLint("NewApi")
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            super.onDoubleTap(e);
+            dialog.dismiss();
+            big = !big;
+            if( preparePopup() )
+                try{
+                    showPopupSlider();
+                }catch(Exception ex){
+                    finish();
+                }
+            else
+                finish();
+            return true;
+        }
+
+        @SuppressLint("NewApi")
 		@Override
 		public boolean onFling(MotionEvent ev1, MotionEvent ev2, float vX, float vY){
 			if( sView.dist(a, b) < sView.offsetY ){

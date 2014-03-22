@@ -52,6 +52,7 @@ public class SliderSurfaceView extends SurfaceView implements SurfaceHolder.Call
 	@Override
 	public void surfaceCreated(SurfaceHolder arg0) {
 		onDisplay = true;
+        doDraw(centerX,false);
 	}
 
 	@Override
@@ -80,6 +81,8 @@ public class SliderSurfaceView extends SurfaceView implements SurfaceHolder.Call
 	protected double dist(float[] a, float[] b){
 		return Math.sqrt( Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2) );
 	}
+
+
 	
 	protected void doDraw(float x, boolean touch){
 		canvas = sHolder.lockCanvas();

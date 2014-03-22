@@ -28,7 +28,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -48,7 +48,7 @@ public class NotificationActivity extends Activity {
 	ViewGroup pView;
 	SliderSurfaceView sView;
 	float X, lastX;
-	DrawTask dTask;
+    boolean lHaptic,rHaptic;
 	GestureDetector geDet;
 	AlertDialog dialog;
 	
@@ -96,7 +96,6 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onResume(){
 		super.onResume();
-		dTask = new DrawTask();
 		notif = (Notification) ((TemporaryStorage)getApplicationContext()).getParcelable();
 		if( prefs.expandByDefault(filter) && android.os.Build.VERSION.SDK_INT >= 16 ){
 			try{
@@ -163,7 +162,19 @@ public class NotificationActivity extends Activity {
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
 					if( event.getAction() == MotionEvent.ACTION_UP ){
+                        if( event.getX() <= sView.leftX && triggers ){
+                            dialog.cancel();
+                            return true;
+                        }
+                        else if( event.getX() >= sView.rightX && triggers ){
+                            startActivity(new Intent(getApplicationContext(), Unlock.class));
+                            dialog.cancel();
+                            return true;
+                        }
+
 						touchValid = false;
+                        X=sView.centerX;
+                        sView.doDraw(X,false);
 					}
 					return geDet.onTouchEvent(event);
 				}
@@ -172,9 +183,7 @@ public class NotificationActivity extends Activity {
 		sView.setOnClickListener(null);
 		sView.setZOrderOnTop(true);
 		dialog.setView(pView);
-		dTask.cancel(true);
-		dTask = new DrawTask();
-		dTask.execute();
+        setLayoutListener();
 		dialog.show();
     }
 	
@@ -236,8 +245,6 @@ public class NotificationActivity extends Activity {
 		((TemporaryStorage)getApplicationContext()).storeStuff(0L);
 		if( dialog != null )
 			dialog.dismiss();
-		if( dTask != null )
-			dTask.cancel(true);
 	}
 	
 	@Override
@@ -248,37 +255,39 @@ public class NotificationActivity extends Activity {
 		}else
 			super.onNewIntent(intent);
 	}
-	
-	private class DrawTask extends AsyncTask<Void, Void, Void>{
-		@Override
-		protected Void doInBackground(Void... params) {
-			while( sView.getWidth() == 0 && !this.isCancelled() ){
-				
-			}
-			sView.setDimensions((float) sView.getWidth(),(float) sView.getHeight());
-			Resources res = getResources();
-			sView.setBitmaps(BitmapFactory.decodeResource(res, R.drawable.ic_lock_lock),
-					BitmapFactory.decodeResource(res, R.drawable.ic_lock_handle),
-					BitmapFactory.decodeResource(res, R.drawable.ic_lock_view),
-					BitmapFactory.decodeResource(res, R.drawable.ic_lock_view0),
-					BitmapFactory.decodeResource(res, R.drawable.ic_lock_dismiss),
-					BitmapFactory.decodeResource(res, R.drawable.ic_lock_dismiss0));
-			X = sView.centerX;
-			lastX = X / 2;
-			while( !this.isCancelled() ){
-				while( sView.onDisplay && !this.isCancelled() ){
-					if( lastX != X ){
-						sView.doDraw(X, touchValid);
-						if( !touchValid ){
-							lastX = X;
-							X = sView.centerX;
-						}
-					}
-				}
-			}
-			return null;
-		}
-	}
+
+    public void setLayoutListener(){
+        try{
+        sView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN){
+                            sView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+                        else
+                            sView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        sliderInit();
+                    }
+                });
+        }catch (Exception e){
+            sliderInit();
+        }
+
+    }
+
+
+    private void sliderInit(){
+        sView.setDimensions((float) sView.getWidth(),(float) sView.getHeight());
+        Resources res = getResources();
+        sView.setBitmaps(BitmapFactory.decodeResource(res, R.drawable.ic_lock_lock),
+                BitmapFactory.decodeResource(res, R.drawable.ic_lock_handle),
+                BitmapFactory.decodeResource(res, R.drawable.ic_lock_view),
+                BitmapFactory.decodeResource(res, R.drawable.ic_lock_view0),
+                BitmapFactory.decodeResource(res, R.drawable.ic_lock_dismiss),
+                BitmapFactory.decodeResource(res, R.drawable.ic_lock_dismiss0));
+        X = sView.centerX;
+        lastX = X / 2;
+    }
 	
 	private class UnlockListener extends SimpleOnGestureListener{
 		float[] a = new float[2];
@@ -294,12 +303,17 @@ public class NotificationActivity extends Activity {
 				touchValid = true;
 				triggers = true;
                 sView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                lHaptic = false;
+                rHaptic = false;
 			}
+
+            sView.doDraw(X, touchValid);
 			return touchValid;
 		}
 		
 		@Override
 		public boolean onScroll(MotionEvent ev1, MotionEvent ev2, float dX, float dY){
+
 			if( Math.abs(ev2.getY() - sView.centerY)/(Math.abs(ev2.getX() - sView.centerX) + sView.offsetX)  >= 1 ){
 				touchValid = false;
 				triggers = false;
@@ -307,47 +321,50 @@ public class NotificationActivity extends Activity {
 			if( touchValid ){
 				lastX = X;
 				X = ev2.getX();
-				return true;
-			}else
-				return false;
+			}
+            if( lastX != X ){
+                if(lastX>sView.leftX && X<=sView.leftX && !lHaptic) {
+                    sView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                    lHaptic=true;
+                }
+
+                if(lastX<sView.rightX && X>=sView.rightX && !rHaptic) {
+                    sView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                    rHaptic=true;
+                }
+
+                if(lHaptic && X>sView.leftX )
+                    lHaptic=false;
+                if(rHaptic && X<sView.rightX)
+                    rHaptic=false;
+
+                if( !touchValid ){
+                    lastX = X;
+                    X = sView.centerX;
+                }
+            }
+            sView.doDraw(X, touchValid);
+            return false;
 		}
 		
 		@Override
 		public void onLongPress(MotionEvent ev){
 		}
-		
-		@SuppressLint("NewApi")
-		@Override
-		public boolean onFling(MotionEvent ev1, MotionEvent ev2, float vX, float vY){
-			if( sView.dist(a, b) < sView.offsetY ){
-				if( ev2.getX() <= sView.leftX && triggers )
-					dialog.cancel();
-				else if( ev2.getX() >= sView.rightX && triggers ){
-					dialog.cancel();
-					startActivity(new Intent(getApplicationContext(), Unlock.class));
-				}else if( android.os.Build.VERSION.SDK_INT >= 16 && !triggers && Math.abs(vY) > 4 * getResources().getDisplayMetrics().densityDpi && prefs.isExpansionAllowed(filter) ){
-					try{
-						notif.bigContentView.hashCode();
-						if( vY > 0 && big || vY < 0 && !big )
-							return true;
-						dialog.dismiss();
-						big = !big;
-						if( preparePopup() )
-							try{
-								showPopupSlider();
-							}catch(Exception e){
-								finish();
-							}
-						else
-							finish();
-					}catch(Exception e){
-						
-					}
-				}
-				return true;
-			}else{
-				return false;
-			}
-		}
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            super.onDoubleTap(e);
+            dialog.dismiss();
+            big = !big;
+            if( preparePopup() )
+                try{
+                    showPopupSlider();
+                }catch(Exception ex){
+                    finish();
+                }
+            else
+                finish();
+            return true;
+        }
 	}
 }
