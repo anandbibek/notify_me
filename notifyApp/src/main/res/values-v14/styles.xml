@@ -10,5 +10,6 @@
 
     <style name="DialogTheme" parent="android:Theme.DeviceDefault.Dialog"></style>
     <style name="TransparentWP" parent="android:Theme.DeviceDefault.Wallpaper.NoTitleBar"></style>
-    <style name="Transparent" parent="android:Theme.DeviceDefault.Panel"></style>
+	<!--<style name="Transparent" parent="android:Theme.DeviceDefault.Panel"/>-->
+    <style name="Transparent" parent="android:Theme.DeviceDefault.Wallpaper.NoTitleBar"></style>
 </resources>
