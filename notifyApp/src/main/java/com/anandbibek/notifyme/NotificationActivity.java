@@ -174,7 +174,6 @@ public class NotificationActivity extends Activity {
 						touchValid = false;
                         X=sView.centerX;
                         sView.doDraw(X,false);
-                        return true;
 					}
 					return geDet.onTouchEvent(event);
 				}
@@ -288,7 +287,8 @@ public class NotificationActivity extends Activity {
         X = sView.centerX;
         lastX = X / 2;
     }
-	
+
+    //gesture listener
 	private class UnlockListener extends SimpleOnGestureListener{
 		float[] a = new float[2];
 		float[] b = new float[2];
@@ -353,7 +353,6 @@ public class NotificationActivity extends Activity {
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            super.onDoubleTap(e);
             dialog.dismiss();
             big = !big;
             if( preparePopup() )
@@ -362,18 +361,17 @@ public class NotificationActivity extends Activity {
                 }catch(Exception ex){
                     finish();
                 }
-            else
-                finish();
-            return true;
+            return super.onDoubleTap(e);
         }
 	}
 
+    //unlock handler
     private class WaitForUnlock extends AsyncTask<Void,Void,Boolean> {
         @Override
         protected Boolean doInBackground(Void... params) {
             while( ((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode() ){
                 try{
-                    wait(100); //TODO optimize if possible
+                    wait(100); //TODO optimize if possible : required for flags to kick in
                 }catch(Exception e){
                     return false;
                 }
