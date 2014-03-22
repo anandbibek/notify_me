@@ -44,7 +44,7 @@ public class Unlock extends Activity {
 		protected Boolean doInBackground(Void... params) {
 			while( ((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode() ){
 				try{
-					wait(100);
+					wait(100); //TODO optimize if possible
 				}catch(Exception e){
 					
 				}

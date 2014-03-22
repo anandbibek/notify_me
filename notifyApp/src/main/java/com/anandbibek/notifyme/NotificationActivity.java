@@ -18,18 +18,17 @@ package com.anandbibek.notifyme;
 	Android is a trademark of Google Inc.
 */
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.Notification;
+import android.app.*;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.*;
@@ -164,17 +163,18 @@ public class NotificationActivity extends Activity {
 					if( event.getAction() == MotionEvent.ACTION_UP ){
                         if( event.getX() <= sView.leftX && triggers ){
                             dialog.cancel();
-                            return true;
                         }
                         else if( event.getX() >= sView.rightX && triggers ){
-                            startActivity(new Intent(getApplicationContext(), Unlock.class));
+                            getWindow().addFlags(LayoutParams.FLAG_DISMISS_KEYGUARD);
+                            notif = ((Notification) ((TemporaryStorage)getApplicationContext()).getParcelable());
+                            new WaitForUnlock().execute();
                             dialog.cancel();
-                            return true;
                         }
 
 						touchValid = false;
                         X=sView.centerX;
                         sView.doDraw(X,false);
+                        return true;
 					}
 					return geDet.onTouchEvent(event);
 				}
@@ -367,4 +367,32 @@ public class NotificationActivity extends Activity {
             return true;
         }
 	}
+
+    private class WaitForUnlock extends AsyncTask<Void,Void,Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            while( ((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode() ){
+                try{
+                    wait(100); //TODO optimize if possible
+                }catch(Exception e){
+                    return false;
+                }
+                if( !((PowerManager)getSystemService(POWER_SERVICE)).isScreenOn() )
+                    return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result){
+            if( result){
+                try{
+                    notif.contentIntent.send();
+                }catch(Exception e){
+
+                }
+            }
+            finish();
+        }
+    }
 }
