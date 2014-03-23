@@ -145,7 +145,6 @@ public class NotificationService extends AccessibilityService {
 		}
 		else{
 			if( !prefs.isLightUpAllowed(filter) ){
-                //TODO check possible battery drain here
 				IntentFilter iFilter = new IntentFilter();
 				iFilter.addAction(Intent.ACTION_SCREEN_ON);
 				registerReceiver(receiver, iFilter);
