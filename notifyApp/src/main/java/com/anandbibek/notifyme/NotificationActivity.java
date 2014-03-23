@@ -25,10 +25,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.PowerManager;
+import android.os.*;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.*;
@@ -163,15 +160,19 @@ public class NotificationActivity extends Activity {
 					if( event.getAction() == MotionEvent.ACTION_UP ){
                         if( event.getX() <= sView.leftX && triggers ){
                             dialog.cancel();
+                            finish();
+                            //overridePendingTransition(0, 0); TODO better animations
+                            return true;
                         }
                         else if( event.getX() >= sView.rightX && triggers ){
                             getWindow().addFlags(LayoutParams.FLAG_DISMISS_KEYGUARD);
-                            notif = ((Notification) ((TemporaryStorage)getApplicationContext()).getParcelable());
-                            new WaitForUnlock().execute();
+                            unlock();
                             dialog.cancel();
+                            return true;
                         }
 
 						touchValid = false;
+                        triggers = false;
                         X=sView.centerX;
                         sView.doDraw(X,false);
 					}
@@ -288,6 +289,25 @@ public class NotificationActivity extends Activity {
         lastX = X / 2;
     }
 
+    //unlock handler
+    public void unlock(){
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    if (notif.contentIntent != null) {
+                        notif.contentIntent.send();
+                    }
+                }catch(PendingIntent.CanceledException e){}
+                finish();
+                //overridePendingTransition(0, 0); TODO better animations
+            }
+        }, 1 /* We need this delay to get new flags applied */
+        );
+    }
+
+
     //gesture listener
 	private class UnlockListener extends SimpleOnGestureListener{
 		float[] a = new float[2];
@@ -364,33 +384,4 @@ public class NotificationActivity extends Activity {
             return super.onDoubleTap(e);
         }
 	}
-
-    //unlock handler
-    private class WaitForUnlock extends AsyncTask<Void,Void,Boolean> {
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            while( ((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode() ){
-                try{
-                    wait(100); //TODO optimize if possible : required for flags to kick in
-                }catch(Exception e){
-                    return false;
-                }
-                if( !((PowerManager)getSystemService(POWER_SERVICE)).isScreenOn() )
-                    return false;
-            }
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result){
-            if( result){
-                try{
-                    notif.contentIntent.send();
-                }catch(Exception e){
-
-                }
-            }
-            finish();
-        }
-    }
 }
