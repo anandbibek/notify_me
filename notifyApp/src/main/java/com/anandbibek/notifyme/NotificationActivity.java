@@ -303,7 +303,7 @@ public class NotificationActivity extends Activity {
                 finish();
                 //overridePendingTransition(0, 0); TODO better animations
             }
-        }, 1 /* We need this delay to get new flags applied */
+        }, 0 /* We need this delay to get new flags applied */
         );
     }
 
