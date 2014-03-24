@@ -29,6 +29,7 @@ import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.WindowManager.LayoutParams;
@@ -36,13 +37,12 @@ import android.view.WindowManager.LayoutParams;
 public class LightUp extends Activity implements SensorEventListener {
 
 	Prefs prefs;
-	WaitForLight wFL;
-	boolean running, countdown;
+	boolean countdown;
     boolean mCovered;
     private SensorManager mSensorManager;
     private Handler handler;
 
-    private BroadcastReceiver receiver = new BroadcastReceiver(){
+    private class screenOnListener extends BroadcastReceiver{
         @Override
         public void onReceive(Context arg0, Intent arg1) {
             if( ((TelephonyManager)arg0.getSystemService(Context.TELEPHONY_SERVICE)).getCallState() != 0 ){
@@ -52,7 +52,7 @@ public class LightUp extends Activity implements SensorEventListener {
             startActivity(new Intent(arg0, NotificationActivity.class ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             arg0.unregisterReceiver(this);
         }
-    };
+    }
 
 	
 	@Override
@@ -67,14 +67,13 @@ public class LightUp extends Activity implements SensorEventListener {
 
 	@Override
 	protected void onNewIntent(Intent intent){
-		if( wFL != null && running){
-			running = false;
-			wFL.cancel(true);
+		if(countdown) {
+            handler.removeCallbacksAndMessages(null);
 			finish();
 			startActivity(intent);
 		}else
 			super.onNewIntent(intent);
-        //TODO handle Handler
+        //TODO check
 	}
 
     @Override
@@ -101,10 +100,23 @@ public class LightUp extends Activity implements SensorEventListener {
             mCovered = false;
             getWindow().addFlags(LayoutParams.FLAG_TURN_SCREEN_ON);
             getWindow().addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+
             prefs = new Prefs(this);
-            wFL = new WaitForLight();
-            wFL.execute();
-            running = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //if( prefs.isPopupAllowed(((TemporaryStorage)getApplicationContext()).getFilter())){
+                    //let's not honor this obvious pref check TODO remove code
+                        ((TemporaryStorage)getApplicationContext()).storeStuff( true );
+
+                        startActivity( new Intent(getApplicationContext(), NotificationActivity.class )
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                .putExtra("screenWasOff", true)
+                                .putExtra("screenCovered", false) );
+                    //}
+                    finish();
+                }
+            },100); /* required for flags to kick in?? TODO verify */
         }
     }
 
@@ -123,46 +135,11 @@ public class LightUp extends Activity implements SensorEventListener {
                 //Log.d("Unregistered ", System.currentTimeMillis()+"");
                 IntentFilter iFilter = new IntentFilter();
                 iFilter.addAction(Intent.ACTION_SCREEN_ON);
-                registerReceiver(receiver, iFilter);
+                registerReceiver(new screenOnListener(), iFilter);
+                countdown = false;
                 //Log.d("Registered  broadcast receiver",System.currentTimeMillis()+"");
             }
-        }, 10000 /* We need this delay to get new flags applied */
+        }, 10000 /* Fixed 10s wait for now */
         );
     }
-
-	
-	private class WaitForLight extends AsyncTask<Void,Void,Boolean>{
-		@Override
-		protected Boolean doInBackground(Void... params) {
-
-//TODO verify redundancy and cleanup code around here
-
-//            if(!mCovered) {
-//            long curTime = System.currentTimeMillis();
-//            while( !((PowerManager)getSystemService(POWER_SERVICE)).isScreenOn() ){
-//                  if( System.currentTimeMillis() - curTime > 999 ){
-//                        return false;
-//                  }
-//            }
-//            }
-			return true;
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean result){
-			if( prefs.isPopupAllowed(((TemporaryStorage)getApplicationContext()).getFilter()) && result ){
-				((TemporaryStorage)getApplicationContext()).storeStuff( true );
-
-				startActivity( new Intent(getApplicationContext(), NotificationActivity.class )
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .putExtra("screenWasOff", true)
-                        .putExtra("screenCovered", mCovered) );
-			}
-			finish();
-			if( !result ) {
-                Log.d("starting all over again","");
-                startActivity(getIntent());
-            }
-		}
-	}
 }
