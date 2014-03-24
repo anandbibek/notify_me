@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.WindowManager.LayoutParams;
 
+//TODO this is redundant now
 public class Unlock extends Activity {
 
 	Notification notif;

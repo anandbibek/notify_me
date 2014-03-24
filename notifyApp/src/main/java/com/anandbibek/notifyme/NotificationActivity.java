@@ -51,8 +51,7 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		screenWasOff = getIntent().getBooleanExtra("screenWasOff", false);
-        if(!getIntent().getBooleanExtra("screenCovered", false))
-		    getWindow().setFlags(LayoutParams.FLAG_TURN_SCREEN_ON, LayoutParams.FLAG_TURN_SCREEN_ON);
+        getWindow().setFlags(LayoutParams.FLAG_TURN_SCREEN_ON, LayoutParams.FLAG_TURN_SCREEN_ON);
 		getWindow().setFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED, LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 		prefs = new Prefs(this);
 		if( prefs.isOrientationFixed() ){
@@ -289,7 +288,7 @@ public class NotificationActivity extends Activity {
         lastX = X / 2;
     }
 
-    //unlock handler
+    //unlock handler makes unlock.java redundant
     public void unlock(){
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         new Handler().postDelayed(new Runnable() {
@@ -303,7 +302,7 @@ public class NotificationActivity extends Activity {
                 finish();
                 //overridePendingTransition(0, 0); TODO better animations
             }
-        }, 0 /* We need this delay to get new flags applied */
+        }, 100 /* We need this delay to get new flags applied */
         );
     }
 
