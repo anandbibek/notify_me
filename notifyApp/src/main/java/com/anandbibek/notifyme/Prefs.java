@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 @SuppressLint("CommitPrefEdits")
 public class Prefs {
@@ -59,6 +60,18 @@ public class Prefs {
 		edit.putLong("ScreenTimeout", timeout);
 		edit.commit();
 	}
+
+    protected long getProximityTimeout(){
+        Log.d("Value read:",prefs.getLong("ProximityTimeout", 0L)+"");
+        return prefs.getLong("ProximityTimeout", 0L);
+    }
+
+    protected void setProximityTimeout(long timeout){
+        edit.putLong("ProximityTimeout", timeout);
+        edit.commit();
+        Log.d("Value written:",timeout+"");
+        Log.d("Value confirm:",prefs.getLong("ProximityTimeout", 0L)+"");
+    }
 	
 	protected boolean isOrientationFixed(){
 		return prefs.getBoolean("OrientationFixed", true);

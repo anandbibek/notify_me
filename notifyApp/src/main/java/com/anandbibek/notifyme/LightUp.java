@@ -101,7 +101,7 @@ public class LightUp extends Activity implements SensorEventListener {
             getWindow().addFlags(LayoutParams.FLAG_TURN_SCREEN_ON);
             getWindow().addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
-            prefs = new Prefs(this);
+            //prefs = new Prefs(this);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -116,7 +116,7 @@ public class LightUp extends Activity implements SensorEventListener {
                     //}
                     finish();
                 }
-            },100); /* required for flags to kick in?? TODO verify */
+            },100);
         }
     }
 
@@ -127,6 +127,8 @@ public class LightUp extends Activity implements SensorEventListener {
 
     public void handlePocket(final Context context){
         handler = new Handler();
+        prefs = new Prefs(this);
+        long timeout = prefs.getProximityTimeout();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -139,7 +141,7 @@ public class LightUp extends Activity implements SensorEventListener {
                 countdown = false;
                 //Log.d("Registered  broadcast receiver",System.currentTimeMillis()+"");
             }
-        }, 10000 /* Fixed 10s wait for now */
+        }, (timeout == 0 ) ? 1000 : timeout
         );
     }
 }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:padding="16dp">
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp" >
@@ -69,9 +70,44 @@
             android:text="@string/main_menu_popup_timeout_description" />
         </LinearLayout>
     </RelativeLayout>
+
+	<RelativeLayout
+			android:id="@+id/main_menu_popup_proximity"
+			android:layout_below="@id/main_menu_popup_timeout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+		<EditText
+				android:id="@+id/main_menu_popup_proximity_editor"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:inputType="number"/>
+
+		<LinearLayout
+				android:id="@+id/main_menu_popup_proximity_caption"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:clickable="true"
+				android:layout_centerVertical="true"
+				android:layout_toLeftOf="@id/main_menu_popup_proximity_editor"
+				android:orientation="vertical">
+			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/main_menu_popup_proximity_title"
+					android:textStyle="bold" />
+			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/main_menu_popup_proximity_description" />
+		</LinearLayout>
+	</RelativeLayout>
+
     <RelativeLayout 
         android:id="@+id/main_menu_popup_orientation"
-        android:layout_below="@id/main_menu_popup_timeout"
+        android:layout_below="@id/main_menu_popup_proximity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp">

@@ -48,6 +48,8 @@
     <string name="main_menu_popup_background_description">If the popup\'s background color makes the notification\'s text unreadable, try inverting the background color.</string>
     <string name="main_menu_popup_timeout_title">Custom screen timeout</string>
     <string name="main_menu_popup_timeout_description">Set a timeout for the screen light after a popup has lit it up. If you leave the field empty or set the timeout 0, the system default timeout will be used.</string>
+	<string name="main_menu_popup_proximity_title">Proximity sensor timeout</string>
+	<string name="main_menu_popup_proximity_description">Set a time for how long after a notification arrives , the proximity sensor will keep checking if taken out of pocket. If you leave the field empty or set the timeout 0, the default timeout 10 sec will be used.</string>
     <string name="main_menu_popup_orientation_title">Lock orientation</string>
     <string name="main_menu_popup_orientation_description">Don\'t change orientation of the popup when the device gets tilted.</string>
     <string name="main_menu_popup_interface_title">Slider interface</string>
