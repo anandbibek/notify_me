@@ -49,7 +49,7 @@
     <string name="main_menu_popup_timeout_title">Custom screen timeout</string>
     <string name="main_menu_popup_timeout_description">Set a timeout for the screen light after a popup has lit it up. If you leave the field empty or set the timeout 0, the system default timeout will be used.</string>
 	<string name="main_menu_popup_proximity_title">Proximity sensor timeout</string>
-	<string name="main_menu_popup_proximity_description">Set a time for how long after a notification arrives , the proximity sensor will keep checking if taken out of pocket. If you leave the field empty or set the timeout 0, the default timeout 10 sec will be used.</string>
+	<string name="main_menu_popup_proximity_description">Set a time for how long after a notification arrives , the proximity sensor will keep checking if taken out of pocket. Enter 0 to disable proximity check. Leave blank for default 10sec.</string>
     <string name="main_menu_popup_orientation_title">Lock orientation</string>
     <string name="main_menu_popup_orientation_description">Don\'t change orientation of the popup when the device gets tilted.</string>
     <string name="main_menu_popup_interface_title">Slider interface</string>
@@ -70,6 +70,9 @@
     <string name="notification_dismiss_button">Dismiss</string>
     <string name="notification_collapse_button">Collapse</string>
     <string name="notification_expand_button">Expand</string>
-    <string name="accessibility_service_description">Enable this service to use Notify Me!. Otherwise it would not be able to register any notifications, which would render the app useless.</string>
+    <string name="accessibility_service_description">Enable this service to use Notify Me!. Otherwise it would not be able to register any notifications, which would render the app useless.
+    \n\nThe popup will warn you about potential security risk but be assured that it is a standard android warning dialog.
+    \n\nNotify Me doesn\'t collect any personal data. It only needs this permission so that it can access your notifications and display them on your lockscreen.
+        \n\nNotify Me also doesn\'t have any internet connection permission. So there\'s no way it can smuggle any private information.</string>
 
 </resources>
