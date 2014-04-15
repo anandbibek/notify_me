@@ -47,7 +47,9 @@
     <string name="main_menu_popup_background_title">Inverti il colore di sfondo</string> 
     <string name="main_menu_popup_background_description">Se il colore dello sfondo del popup rende il testo di notifica illeggibile, prova a cambiare il colore dello sfondo.</string> 
     <string name="main_menu_popup_timeout_title">Timeout schermo personalizzato</string> 
-    <string name="main_menu_popup_timeout_description">Imposta un timeout per lo schermo dopo che il popup &#232; comparso. Se il campo rimane vuoto o impostato a 0, saranno usate le impostazioni di sistema di Android.</string> 
+    <string name="main_menu_popup_timeout_description">Imposta un timeout per lo schermo dopo che il popup &#232; comparso. Se il campo rimane vuoto o impostato a 0, saranno usate le impostazioni di sistema di Android.</string>
+	<string name="main_menu_popup_proximity_title">Proximity sensor timeout</string>
+	<string name="main_menu_popup_proximity_description">Set a time for how long after a notification arrives , the proximity sensor will keep checking if taken out of pocket. Enter 0 to disable proximity check. Leave blank for default 10sec.</string>
     <string name="main_menu_popup_orientation_title">Blocca rotazione</string> 
     <string name="main_menu_popup_orientation_description">Non ruotare il popoup quando il dispositivo viene girato.</string> 
     <string name="main_menu_popup_interface_title">Interfaccia Slider</string> 

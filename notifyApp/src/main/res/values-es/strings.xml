@@ -3,6 +3,7 @@
     <string name="app_name">Notify Me!</string>
     <string name="title_activity_edit_filter">Editor de Lista</string>
     <string name="editor_app_chooser_title">Elige una aplicación</string>
+	<string name="editor_aggressive_description">Allow popups to appear even if your screen is on and unlocked. This might interrupt your workflow, use this option wisely.</string>
     <string name="editor_keywords_title">Filtros de Palabras Claves</string>
     <string name="editor_keywords_description">Las Palabras Claves pueden ser palabras o frases, delimitado por saltos de línea.</string>
     <string name="editor_keywords_blacklist">"Lista Negra - Notificaciones que contienen una de las palabras claves, no son capturadas"</string>
@@ -46,6 +47,8 @@
     <string name="main_menu_popup_background_description">"Si el color del fondo de las ventanas emergentes hacen ilegible el texto de las notificacones,intenta invirtiendo el color del fondo."</string>
     <string name="main_menu_popup_timeout_title">Tiempo de espera de pantalla personalizado</string>
     <string name="main_menu_popup_timeout_description">Establecer el tiempo de espera para la Luz de Pantalla después de que una ventana emergente la ha iluminado. Si dejas el campo vacio o en 0, el tiempo de espera por defecto del sistema será usado.</string>
+	<string name="main_menu_popup_proximity_title">Proximity sensor timeout</string>
+	<string name="main_menu_popup_proximity_description">Set a time for how long after a notification arrives , the proximity sensor will keep checking if taken out of pocket. Enter 0 to disable proximity check. Leave blank for default 10sec.</string>
     <string name="main_menu_popup_orientation_title">Bloquear la orientación</string>
     <string name="main_menu_popup_orientation_description">"No cambiar la orientación de las ventanas emergentes cuando el dispositivo se encuentre inclinado."</string>
     <string name="main_menu_popup_interface_title">Interfaz del deslizador</string>

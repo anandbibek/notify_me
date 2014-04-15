@@ -48,6 +48,8 @@
     <string name="main_menu_popup_background_description">Açılır pencerenin arka plan rengi, yazının okunmasını engelliyorsa arka plan rengini tersine çevirmeyi deneyin.</string>
     <string name="main_menu_popup_timeout_title">Ekran zaman aşımı</string>
     <string name="main_menu_popup_timeout_description">Açılır pencere ekranı açtıktan sonra ekranın kapanması için bir süre belirleyin. Alanı boş bırakır veya 0 yazarsanız telefonun varsayılan değeri kullanılır.</string>
+	<string name="main_menu_popup_proximity_title">Proximity sensor timeout</string>
+	<string name="main_menu_popup_proximity_description">Set a time for how long after a notification arrives , the proximity sensor will keep checking if taken out of pocket. Enter 0 to disable proximity check. Leave blank for default 10sec.</string>
     <string name="main_menu_popup_orientation_title">Kilit yönü</string>
     <string name="main_menu_popup_orientation_description">Cihaz yana yatınca kilidin yönünü değiştirme.</string>
     <string name="main_menu_popup_interface_title">Kaydırma arayüzü</string>

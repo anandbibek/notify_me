@@ -48,6 +48,8 @@
     <string name="main_menu_popup_background_description">如果背景颜色和文字颜色相近而影响阅读，请选择背景反色</string>
     <string name="main_menu_popup_timeout_title">自定义屏幕超时</string>
     <string name="main_menu_popup_timeout_description">请设置一个时间超时，当弹出通知后如果你没有操作手机多久后自动关屏（单位秒）填0的话是系统默认</string>
+	<string name="main_menu_popup_proximity_title">Proximity sensor timeout</string>
+	<string name="main_menu_popup_proximity_description">Set a time for how long after a notification arrives , the proximity sensor will keep checking if taken out of pocket. Enter 0 to disable proximity check. Leave blank for default 10sec.</string>
     <string name="main_menu_popup_orientation_title">锁定方向</string>
     <string name="main_menu_popup_orientation_description">当有通知弹出时不要改变屏幕方向</string>
     <string name="main_menu_popup_interface_title">滑动界面</string>
