@@ -286,6 +286,13 @@ public class NotificationActivity extends Activity {
                 BitmapFactory.decodeResource(res, R.drawable.ic_lock_dismiss0));
         X = sView.centerX;
         lastX = X / 2;
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                sView.doDraw(X,false);
+            }
+        },100); //delay first time drawing, otherwise not drawn properly
     }
 
     //unlock handler makes unlock.java redundant
@@ -364,10 +371,6 @@ public class NotificationActivity extends Activity {
             }
             sView.doDraw(X, touchValid);
             return false;
-		}
-		
-		@Override
-		public void onLongPress(MotionEvent ev){
 		}
 
         @Override

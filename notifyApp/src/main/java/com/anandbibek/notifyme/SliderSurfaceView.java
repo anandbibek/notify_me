@@ -52,7 +52,6 @@ public class SliderSurfaceView extends SurfaceView implements SurfaceHolder.Call
 	@Override
 	public void surfaceCreated(SurfaceHolder arg0) {
 		onDisplay = true;
-        doDraw(centerX,false);
 	}
 
 	@Override
