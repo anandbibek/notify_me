@@ -26,12 +26,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PowerManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.WindowManager.LayoutParams;
 
 public class LightUp extends Activity implements SensorEventListener {
@@ -59,10 +56,31 @@ public class LightUp extends Activity implements SensorEventListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         countdown = false;
+
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if(mSensorManager != null)
-            mSensorManager.registerListener(this,mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
-                    ,mSensorManager.SENSOR_DELAY_NORMAL);
+        if(mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null && new Prefs(this).getProximityTimeout()!=0) {
+            mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
+                    , mSensorManager.SENSOR_DELAY_NORMAL);
+        }
+        else {
+            //Proximity sensor not present OR disabled
+            mCovered = false;
+            getWindow().addFlags(LayoutParams.FLAG_TURN_SCREEN_ON);
+            getWindow().addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ((TemporaryStorage)getApplicationContext()).storeStuff( true );
+
+                    startActivity( new Intent(getApplicationContext(), NotificationActivity.class )
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .putExtra("screenWasOff", true)
+                            .putExtra("screenCovered", false) );
+                    finish();
+                }
+            },100);
+        }
 	}
 
 	@Override
@@ -84,9 +102,9 @@ public class LightUp extends Activity implements SensorEventListener {
             //Log.d("In pocket ", System.currentTimeMillis()+"");
             if(!countdown){
                 mCovered=true;
+                countdown=true;
                 handlePocket(this);
                 //Log.d("Handler started ", System.currentTimeMillis()+"");
-                countdown=true;
             }
         }
         else {
@@ -141,7 +159,7 @@ public class LightUp extends Activity implements SensorEventListener {
                 countdown = false;
                 //Log.d("Registered  broadcast receiver",System.currentTimeMillis()+"");
             }
-        }, (timeout == 0 ) ? 1000 : timeout
+        }, timeout
         );
     }
 }

@@ -466,7 +466,7 @@ public class MainActivity extends Activity {
 					}
 				);
 
-                ((EditText)view.findViewById(R.id.main_menu_popup_proximity_editor)).setText(( prefs.getProximityTimeout() == 0L ? "" : String.valueOf(prefs.getProximityTimeout()/1000L) ));
+                ((EditText)view.findViewById(R.id.main_menu_popup_proximity_editor)).setText(( prefs.getProximityTimeout() == 0L ? "0" : String.valueOf(prefs.getProximityTimeout()/1000L) ));
                 ((EditText)view.findViewById(R.id.main_menu_popup_proximity_editor)).addTextChangedListener(
                         new TextWatcher(){
                             @Override
@@ -535,7 +535,7 @@ public class MainActivity extends Activity {
 							prefs.setSliderBackground(((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_r)).getProgress(), ((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_g)).getProgress(), ((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_b)).getProgress());
 
 							prefs.setScreenTimeout(( ((EditText)view.findViewById(R.id.main_menu_popup_timeout_editor)).getText().toString().equals("") ? 0L : Long.parseLong(((EditText)view.findViewById(R.id.main_menu_popup_timeout_editor)).getText().toString())*1000L ));
-                            prefs.setProximityTimeout(( ((EditText)view.findViewById(R.id.main_menu_popup_proximity_editor)).getText().toString().equals("") ? 0L : Long.parseLong(((EditText)view.findViewById(R.id.main_menu_popup_proximity_editor)).getText().toString())*1000L ));
+                            prefs.setProximityTimeout(( ((EditText)view.findViewById(R.id.main_menu_popup_proximity_editor)).getText().toString().equals("") ? 10000L : Long.parseLong(((EditText)view.findViewById(R.id.main_menu_popup_proximity_editor)).getText().toString())*1000L ));
 
 							prefs.setOrientationFixed(((CheckBox)view.findViewById(R.id.main_menu_popup_orientation_checkbox)).isChecked());
 						}
