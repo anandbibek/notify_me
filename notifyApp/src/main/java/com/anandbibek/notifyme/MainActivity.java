@@ -29,14 +29,10 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -47,12 +43,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -272,276 +265,16 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item){
 		
 		switch(item.getItemId()){
+            case R.id.main_menu_settings:
+                startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
+                return true;
 			case R.id.main_menu_checkaccessibility:
 				prefs.setPrevVersion(0);
 				((TemporaryStorage)getApplicationContext()).accessGranted(false);
 				finish();
 				startActivity(getIntent());
 				return true;
-			case R.id.main_menu_popup:
-				final View view = ((LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.main_menu_popup, null);
-				if( android.os.Build.VERSION.SDK_INT >= 11 )
-					view.findViewById(R.id.main_menu_popup_background).setVisibility(View.GONE);
 
-                ((CheckBox)view.findViewById(R.id.main_menu_popup_background_checkbox)).setChecked(prefs.isBackgroundColorInverted());
-
-				view.findViewById(R.id.main_menu_popup_background_caption).setOnClickListener(
-					new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							((CheckBox)view.findViewById(R.id.main_menu_popup_background_checkbox)).toggle();
-						}
-					}
-				);
-
-				((CheckBox)view.findViewById(R.id.main_menu_popup_orientation_checkbox)).setChecked(prefs.isOrientationFixed());
-
-                view.findViewById(R.id.main_menu_popup_orientation_caption).setOnClickListener(
-					new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							((CheckBox)view.findViewById(R.id.main_menu_popup_orientation_checkbox)).toggle();
-						}
-					}
-				);
-				((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_r)).setMax(255);
-				((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_r)).setOnSeekBarChangeListener(
-					new SeekBar.OnSeekBarChangeListener() {
-						@Override
-						public void onStopTrackingTouch(SeekBar seekBar) {
-						}
-						@Override
-						public void onStartTrackingTouch(SeekBar seekBar) {
-						}
-						@Override
-						public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-							if( fromUser ){
-								((EditText)view.findViewById(R.id.main_menu_popup_color_edit_r)).setText(( progress == 0 ? "" : String.valueOf(progress) ));
-							}
-
-							((ImageView)view.findViewById(R.id.main_menu_popup_color_preview)).setImageDrawable(new ColorDrawable(Color.rgb(progress, ((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_g)).getProgress(), ((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_b)).getProgress())));
-						}
-					}
-				);
-				((EditText)view.findViewById(R.id.main_menu_popup_color_edit_r)).addTextChangedListener(
-					new TextWatcher(){
-						@Override
-						public void afterTextChanged(Editable s) {
-							try{
-								if( Integer.parseInt(s.toString()) > 255 ){
-									s.replace(0, s.length(), "255");
-									return;
-								}else if( Integer.parseInt(s.toString()) < 0 ){
-									s.replace(0, s.length(), "0");
-									return;
-								}
-								((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_r)).setProgress(Integer.parseInt(s.toString()));
-							}catch(Exception e){
-								((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_r)).setProgress(0);
-								s.clear();
-							}
-						}
-						@Override
-						public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-						}
-						@Override
-						public void onTextChanged(CharSequence s, int start, int before, int count) {
-						}
-					}
-				);
-				((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_g)).setMax(255);
-				((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_g)).setOnSeekBarChangeListener(
-					new SeekBar.OnSeekBarChangeListener() {
-						@Override
-						public void onStopTrackingTouch(SeekBar seekBar) {
-						}
-						@Override
-						public void onStartTrackingTouch(SeekBar seekBar) {
-						}
-						@Override
-						public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-							if( fromUser ){
-								((EditText)view.findViewById(R.id.main_menu_popup_color_edit_g)).setText(( progress == 0 ? "" : String.valueOf(progress) ));
-							}
-							((ImageView)view.findViewById(R.id.main_menu_popup_color_preview)).setImageDrawable(new ColorDrawable(Color.rgb(((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_r)).getProgress(), progress, ((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_b)).getProgress())));
-						}
-					}
-				);
-				((EditText)view.findViewById(R.id.main_menu_popup_color_edit_g)).addTextChangedListener(
-					new TextWatcher(){
-						@Override
-						public void afterTextChanged(Editable s) {
-							try{
-								if( Integer.parseInt(s.toString()) > 255 ){
-									s.replace(0, s.length(), "255");
-									return;
-								}else if( Integer.parseInt(s.toString()) < 0 ){
-									s.replace(0, s.length(), "0");
-									return;
-								}
-								((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_g)).setProgress(Integer.parseInt(s.toString()));
-							}catch(Exception e){
-								((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_g)).setProgress(0);
-								s.clear();
-							}
-						}
-						@Override
-						public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-						}
-						@Override
-						public void onTextChanged(CharSequence s, int start, int before, int count) {
-						}
-					}
-				);
-				((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_b)).setMax(255);
-				((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_b)).setOnSeekBarChangeListener(
-					new SeekBar.OnSeekBarChangeListener() {
-						@Override
-						public void onStopTrackingTouch(SeekBar seekBar) {
-						}
-						@Override
-						public void onStartTrackingTouch(SeekBar seekBar) {
-						}
-						@Override
-						public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-							if( fromUser ){
-								((EditText)view.findViewById(R.id.main_menu_popup_color_edit_b)).setText(( progress == 0 ? "" : String.valueOf(progress) ));
-							}
-							((ImageView)view.findViewById(R.id.main_menu_popup_color_preview)).setImageDrawable(new ColorDrawable(Color.rgb(((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_r)).getProgress(), ((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_g)).getProgress(), progress)));
-						}
-					}
-				);
-				((EditText)view.findViewById(R.id.main_menu_popup_color_edit_b)).addTextChangedListener(
-					new TextWatcher(){
-						@Override
-						public void afterTextChanged(Editable s) {
-							try{
-								if( Integer.parseInt(s.toString()) > 255 ){
-									s.replace(0, s.length(), "255");
-									return;
-								}else if( Integer.parseInt(s.toString()) < 0 ){
-									s.replace(0, s.length(), "0");
-									return;
-								}
-								((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_b)).setProgress(Integer.parseInt(s.toString()));
-							}catch(Exception e){
-								((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_b)).setProgress(0);
-								s.clear();
-							}
-						}
-						@Override
-						public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-						}
-						@Override
-						public void onTextChanged(CharSequence s, int start, int before, int count) {
-						}
-					}
-				);
-				((ImageView)view.findViewById(R.id.main_menu_popup_color_preview)).setImageDrawable(new ColorDrawable(Color.rgb(prefs.getSliderBackgroundR(), prefs.getSliderBackgroundG(), prefs.getSliderBackgroundB())));
-				((EditText)view.findViewById(R.id.main_menu_popup_color_edit_r)).setText(String.valueOf(prefs.getSliderBackgroundR()));
-				((EditText)view.findViewById(R.id.main_menu_popup_color_edit_g)).setText(String.valueOf(prefs.getSliderBackgroundG()));
-				((EditText)view.findViewById(R.id.main_menu_popup_color_edit_b)).setText(String.valueOf(prefs.getSliderBackgroundB()));
-				((EditText)view.findViewById(R.id.main_menu_popup_timeout_editor)).setText(( prefs.getScreenTimeout() == 0L ? "" : String.valueOf(prefs.getScreenTimeout()/1000L) ));
-				((EditText)view.findViewById(R.id.main_menu_popup_timeout_editor)).addTextChangedListener(
-					new TextWatcher(){
-						@Override
-						public void afterTextChanged(Editable s) {
-							if( s.toString().equals("") )
-								return;
-							try{
-								if( Long.parseLong(s.toString()) > 9999L )
-									s.replace(0, s.length(), "9999");
-								else if( Long.parseLong(s.toString()) < 0L )
-									s.replace(0, s.length(), "0");
-							}catch(Exception e){
-								s.clear();
-							}
-						}
-						@Override
-						public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-						}
-						@Override
-						public void onTextChanged(CharSequence s, int start, int before, int count) {
-						}
-					}
-				);
-
-                ((EditText)view.findViewById(R.id.main_menu_popup_proximity_editor)).setText(( prefs.getProximityTimeout() == 0L ? "0" : String.valueOf(prefs.getProximityTimeout()/1000L) ));
-                ((EditText)view.findViewById(R.id.main_menu_popup_proximity_editor)).addTextChangedListener(
-                        new TextWatcher(){
-                            @Override
-                            public void afterTextChanged(Editable s) {
-                                if( s.toString().equals("") )
-                                    return;
-                                try{
-                                    if( Long.parseLong(s.toString()) > 9999L )
-                                        s.replace(0, s.length(), "9999");
-                                    else if( Long.parseLong(s.toString()) < 0L )
-                                        s.replace(0, s.length(), "0");
-                                }catch(Exception e){
-                                    s.clear();
-                                }
-                            }
-                            @Override
-                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                            }
-                            @Override
-                            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            }
-                        }
-                );
-
-
-				((CheckBox)view.findViewById(R.id.main_menu_popup_interface_checkbox)).setChecked(prefs.isInterfaceSlider());
-				((CheckBox)view.findViewById(R.id.main_menu_popup_interface_checkbox)).setOnClickListener(
-					new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							((ViewGroup)view.findViewById(R.id.main_menu_popup_color)).getChildAt(0).setEnabled(((CheckBox)v).isChecked());
-							for( int i = 0 ; i < 3 ; i++){
-								((ViewGroup)((ViewGroup)((ViewGroup)view.findViewById(R.id.main_menu_popup_color)).getChildAt(1)).getChildAt(i)).getChildAt(0).setEnabled(((CheckBox)v).isChecked());
-								((ViewGroup)((ViewGroup)((ViewGroup)view.findViewById(R.id.main_menu_popup_color)).getChildAt(1)).getChildAt(i)).getChildAt(1).setEnabled(((CheckBox)v).isChecked());
-							}
-							((ViewGroup)view.findViewById(R.id.main_menu_popup_color)).getChildAt(2).setVisibility(( ((CheckBox)v).isChecked() ? View.VISIBLE : View.INVISIBLE ));
-						}
-					}
-				);
-				((ViewGroup)view.findViewById(R.id.main_menu_popup_color)).getChildAt(0).setEnabled(((CheckBox)view.findViewById(R.id.main_menu_popup_interface_checkbox)).isChecked());
-				for( int i = 0 ; i < 3 ; i++){
-					((ViewGroup)((ViewGroup)((ViewGroup)view.findViewById(R.id.main_menu_popup_color)).getChildAt(1)).getChildAt(i)).getChildAt(0).setEnabled(((CheckBox)view.findViewById(R.id.main_menu_popup_interface_checkbox)).isChecked());
-					((ViewGroup)((ViewGroup)((ViewGroup)view.findViewById(R.id.main_menu_popup_color)).getChildAt(1)).getChildAt(i)).getChildAt(1).setEnabled(((CheckBox)view.findViewById(R.id.main_menu_popup_interface_checkbox)).isChecked());
-				}
-				((ViewGroup)view.findViewById(R.id.main_menu_popup_color)).getChildAt(2).setVisibility(( ((CheckBox)view.findViewById(R.id.main_menu_popup_interface_checkbox)).isChecked() ? View.VISIBLE : View.INVISIBLE ));
-				view.findViewById(R.id.main_menu_popup_interface_caption).setOnClickListener(
-					new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							((CheckBox)view.findViewById(R.id.main_menu_popup_interface_checkbox)).toggle();
-							((ViewGroup)view.findViewById(R.id.main_menu_popup_color)).getChildAt(0).setEnabled(((CheckBox)view.findViewById(R.id.main_menu_popup_interface_checkbox)).isChecked());
-							for( int i = 0 ; i < 3 ; i++){
-								((ViewGroup)((ViewGroup)((ViewGroup)view.findViewById(R.id.main_menu_popup_color)).getChildAt(1)).getChildAt(i)).getChildAt(0).setEnabled(((CheckBox)view.findViewById(R.id.main_menu_popup_interface_checkbox)).isChecked());
-								((ViewGroup)((ViewGroup)((ViewGroup)view.findViewById(R.id.main_menu_popup_color)).getChildAt(1)).getChildAt(i)).getChildAt(1).setEnabled(((CheckBox)view.findViewById(R.id.main_menu_popup_interface_checkbox)).isChecked());
-							}
-							((ViewGroup)view.findViewById(R.id.main_menu_popup_color)).getChildAt(2).setVisibility(( ((CheckBox)view.findViewById(R.id.main_menu_popup_interface_checkbox)).isChecked() ? View.VISIBLE : View.INVISIBLE ));
-						}
-					}
-				);
-				new AlertDialog.Builder(this).setView(view).setPositiveButton(R.string.main_menu_popup_save_button,
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							prefs.setBackgroundColorInverted(((CheckBox)view.findViewById(R.id.main_menu_popup_background_checkbox)).isChecked());
-							prefs.setInterfaceSlider(((CheckBox)view.findViewById(R.id.main_menu_popup_interface_checkbox)).isChecked());
-							prefs.setSliderBackground(((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_r)).getProgress(), ((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_g)).getProgress(), ((SeekBar)view.findViewById(R.id.main_menu_popup_color_slider_b)).getProgress());
-
-							prefs.setScreenTimeout(( ((EditText)view.findViewById(R.id.main_menu_popup_timeout_editor)).getText().toString().equals("") ? 0L : Long.parseLong(((EditText)view.findViewById(R.id.main_menu_popup_timeout_editor)).getText().toString())*1000L ));
-                            prefs.setProximityTimeout(( ((EditText)view.findViewById(R.id.main_menu_popup_proximity_editor)).getText().toString().equals("") ? 10000L : Long.parseLong(((EditText)view.findViewById(R.id.main_menu_popup_proximity_editor)).getText().toString())*1000L ));
-
-							prefs.setOrientationFixed(((CheckBox)view.findViewById(R.id.main_menu_popup_orientation_checkbox)).isChecked());
-						}
-					}
-				).setNegativeButton(R.string.main_menu_popup_cancel_button, null).show();
-				return true;
 			case R.id.main_menu_help:
 				new AlertDialog.Builder(this).setMessage(R.string.main_menu_help_message).setTitle(R.string.main_menu_help_title)
 				.setPositiveButton(R.string.main_menu_help_ok_button, null).setNegativeButton(R.string.main_menu_help_question_button,

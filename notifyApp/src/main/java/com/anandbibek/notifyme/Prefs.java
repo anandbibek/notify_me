@@ -52,20 +52,32 @@ public class Prefs {
 	}
 	
 	protected long getScreenTimeout(){
-		return prefs.getLong("ScreenTimeout", 0L);
+        String x = prefs.getString("_screenTimeout", "0");
+        if(x.equals(""))
+            return 0L;
+        else
+            return  1000 * Long.parseLong(x);
 	}
 	
 	protected void setScreenTimeout(long timeout){
-		edit.putLong("ScreenTimeout", timeout);
+		edit.putString("_screenTimeout", timeout+"");
 		edit.commit();
 	}
 
+    protected boolean isProximityEnabled(){
+        return prefs.getBoolean("_proximityEnabled",false);
+    }
+
     protected long getProximityTimeout(){
-        return prefs.getLong("ProximityTimeout", 10L);
+        String x = prefs.getString("_proximityTimeout", "10");
+        if(x.equals(""))
+            return 10000;
+        else
+            return 1000 * Long.parseLong(x);
     }
 
     protected void setProximityTimeout(long timeout){
-        edit.putLong("ProximityTimeout", timeout);
+        edit.putString("_proximityTimeout", timeout+"");
         edit.commit();
     }
 	
@@ -86,7 +98,7 @@ public class Prefs {
 		edit.putBoolean("InterfaceSlider", slider);
 		edit.commit();
 	}
-	
+
 	protected int getSliderBackgroundR(){
 		return prefs.getInt("SliderBackgroundR", ( android.os.Build.VERSION.SDK_INT > 10 ? 24 : 255 ));
 	}

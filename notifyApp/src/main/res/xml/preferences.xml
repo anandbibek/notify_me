@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:title="Enable pocket mode"
+        android:defaultValue="false"
+        android:key="_proximityEnabled"
+        />
+    <EditTextPreference
+        android:title="@string/main_menu_popup_proximity_title"
+        android:summary="@string/main_menu_popup_proximity_description"
+        android:key="_proximityTimeout"
+        android:dependency="_proximityEnabled"
+        android:numeric="integer"
+        />
+    <EditTextPreference
+        android:title="@string/main_menu_popup_timeout_title"
+        android:summary="@string/main_menu_popup_timeout_description"
+        android:key="_screenTimeout"
+        android:numeric="integer"
+        />
+    <CheckBoxPreference
+        android:title="@string/main_menu_popup_orientation_title"
+        android:summary="@string/main_menu_popup_orientation_description"
+        android:defaultValue="true"
+        android:key="OrientationFixed"
+        />
+    <CheckBoxPreference
+        android:title="@string/main_menu_popup_interface_title"
+        android:summary="@string/main_menu_popup_interface_description"
+        android:defaultValue="true"
+        android:key="InterfaceSlider"
+        />
+
+    <com.anandbibek.notifyme.ColorPickerPreference
+        android:title="Customize color"
+        android:summary="Set a RGB value for color. Default is 24,24,24"
+        android:dependency="InterfaceSlider"
+        />
+
+
+</PreferenceScreen>

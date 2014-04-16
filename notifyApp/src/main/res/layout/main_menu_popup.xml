@@ -5,186 +5,24 @@
     android:padding="16dp">
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp" >
-    <RelativeLayout 
-        android:id="@+id/main_menu_popup_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
-        <CheckBox 
-            android:id="@+id/main_menu_popup_background_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+    android:layout_margin="12dp"
+    >
 
-        <LinearLayout 
-            android:id="@+id/main_menu_popup_background_caption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/main_menu_popup_background_checkbox"
-            android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_menu_popup_background_title"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_menu_popup_background_description" />
-        </LinearLayout>
-    </RelativeLayout>
-    <RelativeLayout 
-        android:id="@+id/main_menu_popup_timeout"
-        android:layout_below="@id/main_menu_popup_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
-        <EditText 
-            android:id="@+id/main_menu_popup_timeout_editor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:inputType="number"/>
-
-        <LinearLayout 
-            android:id="@+id/main_menu_popup_timeout_caption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/main_menu_popup_timeout_editor"
-            android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_menu_popup_timeout_title"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_menu_popup_timeout_description" />
-        </LinearLayout>
-    </RelativeLayout>
-
-	<RelativeLayout
-			android:id="@+id/main_menu_popup_proximity"
-			android:layout_below="@id/main_menu_popup_timeout"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-
-		<EditText
-				android:id="@+id/main_menu_popup_proximity_editor"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:inputType="number"/>
-
-		<LinearLayout
-				android:id="@+id/main_menu_popup_proximity_caption"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:clickable="true"
-				android:layout_centerVertical="true"
-				android:layout_toLeftOf="@id/main_menu_popup_proximity_editor"
-				android:orientation="vertical">
-			<TextView
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/main_menu_popup_proximity_title"
-					android:textStyle="bold" />
-			<TextView
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/main_menu_popup_proximity_description" />
-		</LinearLayout>
-	</RelativeLayout>
-
-    <RelativeLayout 
-        android:id="@+id/main_menu_popup_orientation"
-        android:layout_below="@id/main_menu_popup_proximity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp">
-        
-        <CheckBox 
-            android:id="@+id/main_menu_popup_orientation_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
-
-        <LinearLayout 
-            android:id="@+id/main_menu_popup_orientation_caption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/main_menu_popup_orientation_checkbox"
-            android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_menu_popup_orientation_title"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_menu_popup_orientation_description" />
-        </LinearLayout>
-    </RelativeLayout>
-    <RelativeLayout 
-        android:id="@+id/main_menu_popup_interface"
-        android:layout_below="@id/main_menu_popup_orientation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp">
-        
-        <CheckBox 
-            android:id="@+id/main_menu_popup_interface_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
-
-        <LinearLayout 
-            android:id="@+id/main_menu_popup_interface_caption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/main_menu_popup_interface_checkbox"
-            android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_menu_popup_interface_title"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_menu_popup_interface_description" />
-        </LinearLayout>
-    </RelativeLayout>
-    
-    <RelativeLayout 
+    <RelativeLayout
         android:id="@+id/main_menu_popup_color"
-        android:layout_below="@id/main_menu_popup_interface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp">
+        android:layout_marginTop="6dp"
+        >
 
         <TextView
             android:id="@+id/main_menu_popup_color_description"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/main_menu_popup_color_description"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:paddingBottom="16dp"
+            />
         <LinearLayout 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -194,7 +32,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                >
                 <SeekBar 
                     android:id="@+id/main_menu_popup_color_slider_r"
                     android:layout_width="0dp"
@@ -211,7 +51,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                >
                 <SeekBar 
                     android:id="@+id/main_menu_popup_color_slider_g"
                     android:layout_width="0dp"
@@ -228,7 +70,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                >
                 <SeekBar 
                     android:id="@+id/main_menu_popup_color_slider_b"
                     android:layout_width="0dp"
@@ -246,8 +90,13 @@
         <ImageView 
             android:id="@+id/main_menu_popup_color_preview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/main_menu_popup_color_description"/>
+            android:layout_height="20dp"
+            android:layout_toRightOf="@+id/main_menu_popup_color_description"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_alignTop="@+id/main_menu_popup_color_description"
+            />
     </RelativeLayout>
     
 </RelativeLayout>

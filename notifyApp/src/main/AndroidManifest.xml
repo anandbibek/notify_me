@@ -19,14 +19,15 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.anandbibek.notifyme"
-    android:versionCode="201"
-    android:versionName="2.0.1" >
+    android:versionCode="210"
+    android:versionName="2.1.0" >
 
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="19" />
-    <uses-permission 
-        android:name="android.permission.WRITE_SETTINGS"/>
+
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
     <application
         android:name="com.anandbibek.notifyme.TemporaryStorage"
         android:allowBackup="true"
@@ -95,6 +96,14 @@
             android:launchMode="singleInstance"
             android:noHistory="true"
             android:theme="@style/TransparentWP" >
+        </activity>
+        <activity
+            android:name="com.anandbibek.notifyme.SettingsActivity"
+            android:label="Settings"
+            android:parentActivityName="com.anandbibek.notifyme.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
         </activity>
     </application>
 
