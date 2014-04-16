@@ -386,14 +386,16 @@ public class NotificationActivity extends Activity {
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            dialog.dismiss();
-            big = !big;
-            if( preparePopup() )
-                try{
-                    showPopupSlider();
-                }catch(Exception ex){
-                    finish();
-                }
+            if(android.os.Build.VERSION.SDK_INT >= 16) {
+                dialog.dismiss();
+                big = !big;
+                if (preparePopup())
+                    try {
+                        showPopupSlider();
+                    } catch (Exception ex) {
+                        finish();
+                    }
+            }
             return super.onDoubleTap(e);
         }
 	}
