@@ -49,7 +49,7 @@
     <string name="main_menu_popup_timeout_title">Custom screen timeout</string>
     <string name="main_menu_popup_timeout_description">Set a timeout for the screen light after a popup has lit it up. If you leave the field empty or set the timeout 0, the system default timeout will be used.</string>
 	<string name="main_menu_popup_proximity_title">Proximity sensor timeout</string>
-	<string name="main_menu_popup_proximity_description">Set a time for how long after a notification arrives , the proximity sensor will keep checking if taken out of pocket. Enter 0 to disable proximity check. Leave blank for default 10sec.</string>
+	<string name="main_menu_popup_proximity_description">Set a time for how long after a notification arrives , the proximity sensor will keep checking if taken out of pocket.Leave blank for default 10sec.</string>
     <string name="main_menu_popup_orientation_title">Lock orientation</string>
     <string name="main_menu_popup_orientation_description">Don\'t change orientation of the popup when the device gets tilted.</string>
     <string name="main_menu_popup_interface_title">Slider interface</string>
@@ -63,7 +63,7 @@
     <string name="main_menu_help_ok_button">Got it!</string>
     <string name="main_menu_help_question_button">There\'s a question left&#8230;</string>
     <string name="main_menu_about">About this app</string>
-    <string name="main_menu_about_message">An app to enhance Android&#8482;\'s abilities to show notifications.\nCopyright &#169; 2013 Tom Kranz\nThis program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the GPLv3 or (at your option) later versions; visit <a href="http://www.gnu.org/licenses/">gnu.org/licenses</a> for details.\nAndroid is a trademark of Google Inc.</string>
+    <string name="main_menu_about_message">An app to enhance Android&#8482;\'s abilities to show notifications.\nCopyright &#169; 2013 Tom Kranz\nCopyright &#169; 2014 Anand Bibek\nThis program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under the conditions of the GPLv3 or (at your option) later versions; visit <a href="http://www.gnu.org/licenses/">gnu.org/licenses</a> for details.\nAndroid is a trademark of Google Inc.</string>
     <string name="main_menu_about_title">About Notify Me!</string>
     <string name="main_menu_about_ok_button">Okay, cool thing</string>
     <string name="notification_view_button">View</string>
