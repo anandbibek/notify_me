@@ -165,7 +165,6 @@ public class NotificationActivity extends Activity {
                             return true;
                         }
                         else if( event.getX() >= sView.rightX && triggers ){
-                            getWindow().addFlags(LayoutParams.FLAG_DISMISS_KEYGUARD);
                             unlock();
                             dialog.cancel();
                             return true;
@@ -195,8 +194,8 @@ public class NotificationActivity extends Activity {
 			new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
+                    unlock();
 					dialog.cancel();
-					startActivity(new Intent(getApplicationContext(), Unlock.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 				}
 			}
 		);

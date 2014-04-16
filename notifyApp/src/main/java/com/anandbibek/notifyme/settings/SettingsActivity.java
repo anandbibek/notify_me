@@ -1,7 +1,9 @@
-package com.anandbibek.notifyme;
+package com.anandbibek.notifyme.settings;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+
+import com.anandbibek.notifyme.R;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

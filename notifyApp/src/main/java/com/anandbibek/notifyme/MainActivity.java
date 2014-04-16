@@ -48,6 +48,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.anandbibek.notifyme.settings.SettingsActivity;
+
 public class MainActivity extends Activity {
 
 	Prefs prefs;
@@ -281,7 +283,7 @@ public class MainActivity extends Activity {
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/showthread.php?t=2173226")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+							startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://forum.xda-developers.com/showthread.php?t=2707698")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 						}
 					}
 				).show();

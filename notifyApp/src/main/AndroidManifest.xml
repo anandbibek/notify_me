@@ -77,20 +77,6 @@
             android:theme="@style/TransparentWP" >
         </activity>
         <activity
-            android:name="com.anandbibek.notifyme.NotificationActivityTransparent"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:noHistory="true"
-            android:theme="@style/Transparent" >
-        </activity>
-        <activity
-            android:name="com.anandbibek.notifyme.Unlock"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:noHistory="true"
-            android:theme="@style/TransparentWP" >
-        </activity>
-        <activity
             android:name="com.anandbibek.notifyme.LightUp"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
@@ -98,7 +84,7 @@
             android:theme="@style/TransparentWP" >
         </activity>
         <activity
-            android:name="com.anandbibek.notifyme.SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:label="Settings"
             android:parentActivityName="com.anandbibek.notifyme.MainActivity" >
             <meta-data
