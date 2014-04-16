@@ -8,6 +8,7 @@
         <CheckBoxPreference
             android:title="Show notification from all apps"
             android:key="_blacklistMode"
+            android:defaultValue="true"
             android:summary="You can use app selection page options for blacklisting or individual preferences"
             />
 

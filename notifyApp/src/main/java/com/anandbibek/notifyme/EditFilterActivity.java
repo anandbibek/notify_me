@@ -234,7 +234,6 @@ public class EditFilterActivity extends Activity {
 	public void onBackPressed(){
 		if( app == null || !changed || (System.currentTimeMillis()-lastBackPress < 3500L) ){
 			leaveToast.cancel();
-			AppPicker.appInfos = null;
 			finish();
 			return;
 		}
@@ -413,18 +412,15 @@ public class EditFilterActivity extends Activity {
 		leaveToast.cancel();
 		switch( item.getItemId() ){
 			case R.id.editor_menu_apply:
-				AppPicker.appInfos = null;
 				apply();
 				return true;
 			case R.id.editor_menu_discard:
-				AppPicker.appInfos = null;
 				finish();
 				return true;
 			case R.id.editor_menu_remove:
                 if(filter==9999)
                     return true;
 				prefs.removeFilter(filter);
-				AppPicker.appInfos = null;
 				finish();
 				return true;
 			default:

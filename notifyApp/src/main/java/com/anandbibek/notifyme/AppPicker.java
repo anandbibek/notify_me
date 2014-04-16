@@ -17,9 +17,6 @@
 */
 package com.anandbibek.notifyme;
 
-import java.util.Arrays;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -40,12 +37,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class AppPicker extends Activity{
 
 	PackageManager packMan;
-	static List<ApplicationInfo> appInfos;
-	static Drawable[] icons;
-	static String[] appNames, appPackages;
+	List<ApplicationInfo> appInfos;
+	Drawable[] icons;
+	String[] appNames, appPackages;
 	ProgressDialog plsWait;
 	GetAppList stuff;
 	boolean ready;

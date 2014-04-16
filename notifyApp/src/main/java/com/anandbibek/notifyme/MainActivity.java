@@ -48,8 +48,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.anandbibek.notifyme.settings.SettingsActivity;
-
 public class MainActivity extends Activity {
 
 	Prefs prefs;
@@ -203,7 +201,7 @@ public class MainActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(ProgressDialog... args) {
 			pDialog = args[0];
-			notif = new NotificationCompat.Builder(getApplicationContext()).setTicker("Actioni contrariam semper et aequalem esse reactionem.")
+			notif = new NotificationCompat.Builder(getApplicationContext()).setTicker("Checking Accessibility service status")
 					.setSmallIcon(R.drawable.ic_launcher).setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT)).build();
 			this.publishProgress(-1L);
 			long t = System.currentTimeMillis() ;
