@@ -135,7 +135,7 @@ public class LightUp extends Activity implements SensorEventListener {
                     //}
                     finish();
                 }
-            },100);
+            },200); //TODO verify if delay is enough
         }
     }
 

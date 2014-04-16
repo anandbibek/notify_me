@@ -110,6 +110,17 @@ public class NotificationActivity extends Activity {
 		}catch(Exception e){
 			
 		}
+
+        if( !new Prefs(this).isPopupAllowed(filter)){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                }
+            },300);
+            return;
+        }
+
 		if( !preparePopup() )
 			return;
 		try{

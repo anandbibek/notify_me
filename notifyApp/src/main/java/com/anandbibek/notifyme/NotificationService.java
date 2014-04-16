@@ -153,9 +153,11 @@ public class NotificationService extends AccessibilityService {
 		}
 		else{
 			if( !prefs.isLightUpAllowed(filter) ){
-				IntentFilter iFilter = new IntentFilter();
-				iFilter.addAction(Intent.ACTION_SCREEN_ON);
-				registerReceiver(receiver, iFilter);
+                if(prefs.isPopupAllowed(filter)) {
+                    IntentFilter iFilter = new IntentFilter();
+                    iFilter.addAction(Intent.ACTION_SCREEN_ON);
+                    registerReceiver(receiver, iFilter);
+                }
 			}else{
 				startActivity(new Intent(this, LightUp.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 			}
