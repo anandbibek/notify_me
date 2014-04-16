@@ -51,7 +51,8 @@ public class NotificationActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		screenWasOff = getIntent().getBooleanExtra("screenWasOff", false);
-        getWindow().setFlags(LayoutParams.FLAG_TURN_SCREEN_ON, LayoutParams.FLAG_TURN_SCREEN_ON);
+        if(getIntent().getBooleanExtra("lightUp", true))
+            getWindow().setFlags(LayoutParams.FLAG_TURN_SCREEN_ON, LayoutParams.FLAG_TURN_SCREEN_ON);
 		getWindow().setFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED, LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 		prefs = new Prefs(this);
 		if( prefs.isOrientationFixed() ){

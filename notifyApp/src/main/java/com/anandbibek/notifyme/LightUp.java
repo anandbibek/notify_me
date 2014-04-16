@@ -58,7 +58,8 @@ public class LightUp extends Activity implements SensorEventListener {
         countdown = false;
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if(mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null && new Prefs(this).getProximityTimeout()!=0) {
+        if(mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null && new Prefs(this).isProximityEnabled()) {
+            //sensor present AND enabled
             mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
                     , mSensorManager.SENSOR_DELAY_NORMAL);
         }
@@ -76,7 +77,7 @@ public class LightUp extends Activity implements SensorEventListener {
                     startActivity( new Intent(getApplicationContext(), NotificationActivity.class )
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             .putExtra("screenWasOff", true)
-                            .putExtra("screenCovered", false) );
+                            .putExtra("lightUp", true) );
                     finish();
                 }
             },100);
@@ -130,7 +131,7 @@ public class LightUp extends Activity implements SensorEventListener {
                         startActivity( new Intent(getApplicationContext(), NotificationActivity.class )
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                 .putExtra("screenWasOff", true)
-                                .putExtra("screenCovered", false) );
+                                .putExtra("lightUp", true) );
                     //}
                     finish();
                 }

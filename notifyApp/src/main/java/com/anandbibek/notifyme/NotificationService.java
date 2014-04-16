@@ -59,10 +59,14 @@ public class NotificationService extends AccessibilityService {
 
         if( filterMatch(event, true) ){
             //jump down to trigger if aggressive popup is allowed
-			if( prefs.isAggressive(filter) );
+			if( prefs.isAggressive(filter) )
+                ;
 
             //do not trigger otherwise if screen on and not on lockscreen
-			else if( ((PowerManager)getSystemService(POWER_SERVICE)).isScreenOn() && !((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode() )
+			else if( ((PowerManager)getSystemService(POWER_SERVICE)).isScreenOn()
+                    //&& !((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()
+                    //how about showing popup even if in keyguard scrreen? //TODO get feedback
+                    )
 				return;
 
 		}else
@@ -134,13 +138,17 @@ public class NotificationService extends AccessibilityService {
 		try{
 			unregisterReceiver(receiver);
 		}catch(Exception e){
-			
+
 		}
 		((TemporaryStorage)getApplicationContext()).storeStuff(event.getParcelableData());
 		((TemporaryStorage)getApplicationContext()).storeStuff(filter);
 		if( ((PowerManager)getSystemService(POWER_SERVICE)).isScreenOn() ){
 			if( prefs.isPopupAllowed(filter) ){
-				startActivity(new Intent(this, NotificationActivity.class ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("screenWasOff", ((TemporaryStorage)getApplicationContext()).wasScreenOff() || ((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()) );
+
+                Intent i = new Intent(this, NotificationActivity.class );
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("screenWasOff", ((TemporaryStorage)getApplicationContext()).wasScreenOff() || ((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode());
+                i.putExtra("lightUp", false);
+                startActivity(i);
 			}
 		}
 		else{
