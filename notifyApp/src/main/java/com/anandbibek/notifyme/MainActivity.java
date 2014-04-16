@@ -118,7 +118,8 @@ public class MainActivity extends Activity {
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 					Intent editFilterIntent = new Intent(parent.getContext(), EditFilterActivity.class);
 					if( position == prefs.getNumberOfFilters() ){
-						editFilterIntent.setAction("new");
+                        editFilterIntent.setAction("edit");
+                        editFilterIntent.putExtra("filter", 9999);
 					}else{
 						editFilterIntent.setAction("edit");
 						editFilterIntent.putExtra("filter", position);
@@ -178,8 +179,8 @@ public class MainActivity extends Activity {
 			TextView textView = (TextView) itemView.findViewById(R.id.filter_item_name);
 			ImageView imageView = (ImageView) itemView.findViewById(R.id.filter_item_image);
 			if( values[position].equals("JOKER") ){
-				textView.setText(R.string.main_add_to_list);
-				imageView.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_add));
+				textView.setText("Default preferences");
+				imageView.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_preferences));
 				return itemView;
 			}
 			ApplicationInfo appInfo;
@@ -267,9 +268,14 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item){
 		
 		switch(item.getItemId()){
+            case R.id.add_app:
+                startActivity(new Intent(this, EditFilterActivity.class).setAction("new"));
+                return true;
+
             case R.id.main_menu_settings:
                 startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
                 return true;
+
 			case R.id.main_menu_checkaccessibility:
 				prefs.setPrevVersion(0);
 				((TemporaryStorage)getApplicationContext()).accessGranted(false);
@@ -288,12 +294,14 @@ public class MainActivity extends Activity {
 					}
 				).show();
 				return true;
+
 			case R.id.main_menu_about:
 				ViewGroup about = (ViewGroup) ((LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.main_menu_about, null);
 				((TextView)about.getChildAt(0)).setMovementMethod(LinkMovementMethod.getInstance());
 				new AlertDialog.Builder(this).setView(about).setTitle(R.string.main_menu_about_title)
 				.setPositiveButton(R.string.main_menu_about_ok_button, null).show();
 				return true;
+
 			default:
 				return super.onOptionsItemSelected(item);
 		}

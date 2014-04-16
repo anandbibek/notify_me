@@ -81,6 +81,8 @@ public class NotificationService extends AccessibilityService {
 	private boolean filterMatch(AccessibilityEvent event, boolean nameOnly) {
 
 		boolean filterMatch = false;
+        boolean noBlacklistedWord = true;
+
 		for( int i = 0; i < prefs.getNumberOfFilters() && !filterMatch; i++ ){
 			if( event.getPackageName().equals(prefs.getFilterApp(i)) ){
 				filter = i;
@@ -124,13 +126,23 @@ public class NotificationService extends AccessibilityService {
 					for( int j = 0 ; j < keywords.length ; j++ ){
 						if( notificationContents.contains(keywords[j]) && !keywords[j].equals("") ){
 							filterMatch = prefs.isFilterWhitelist(filter);
+                            noBlacklistedWord = filterMatch;
 						}
 					}
 				}else{
 					filterMatch = true;
 				}
+                break;
 			}
 		}
+        //if filter didn't match,
+        //and there's no blacklisted keyword
+        //hey wait, don't leave. maybe we've blacklist mode enabled
+        if(!filterMatch && noBlacklistedWord && prefs.isBlackListEnabled()){
+            filter=9999;                                        //use default filter of 9999
+            return true;                                        //show notification
+        }
+
 		return filterMatch;
 	}
 

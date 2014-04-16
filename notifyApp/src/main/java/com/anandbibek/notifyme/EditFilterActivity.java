@@ -99,7 +99,8 @@ public class EditFilterActivity extends Activity {
 		if( getIntent().getAction().equals("edit") ){
 			filter = getIntent().getIntExtra("filter", 0);
 			app = prefs.getFilterApp(filter);
-		}else{
+		}
+        else{
 			filter = prefs.getNumberOfFilters();
 		}
 		keywordsEditor.addTextChangedListener(
@@ -130,27 +131,35 @@ public class EditFilterActivity extends Activity {
 		}
 		if( app != null ){
 			try {
-				ApplicationInfo appInfo = packMan.getApplicationInfo(app, 0);
-				appNameView.setText(packMan.getApplicationLabel(appInfo));
-				appIconView.setImageDrawable(packMan.getApplicationIcon(appInfo));
+                if(filter==9999){
+                    appNameView.setText("Default config");
+                    keywordsCheckbox.setEnabled(false);
+                    keywordsCheckbox.setChecked(false);
+                }
+                else {
+                    ApplicationInfo appInfo = packMan.getApplicationInfo(app, 0);
+                    appNameView.setText(packMan.getApplicationLabel(appInfo));
+                    appIconView.setImageDrawable(packMan.getApplicationIcon(appInfo));
+
+                    keywordsCheckbox.setEnabled(true);
+                    keywordsCheckbox.setChecked(prefs.hasFilterKeywords(filter));
+                    keywordsEditor.setText("");
+                    if( keywordsCheckbox.isChecked() ){
+                        String[] keywords = prefs.getFilterKeywords(filter);
+                        for( int i = 0 ; i < keywords.length - 1 ; i++ )
+                            keywordsEditor.setText(keywordsEditor.getText()+keywords[i]+"\n");
+                        keywordsEditor.setText(keywordsEditor.getText()+keywords[keywords.length-1]);
+                        keywordsEditor.setEnabled(true);
+                        keywordsEditor.setFocusableInTouchMode(true);
+                    }else{
+                        keywordsEditor.setEnabled(false);
+                        keywordsEditor.setFocusable(false);
+                    }
+                    keywordsCaption.setEnabled(true);
+                    keywordsCaption.getChildAt(0).setEnabled(true);
+                    keywordsCaption.getChildAt(1).setEnabled(true);
+                }
 				appChooserButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_edit));
-				keywordsCheckbox.setEnabled(true);
-				keywordsCheckbox.setChecked(prefs.hasFilterKeywords(filter));
-				keywordsEditor.setText("");
-				if( keywordsCheckbox.isChecked() ){
-					String[] keywords = prefs.getFilterKeywords(filter);
-					for( int i = 0 ; i < keywords.length - 1 ; i++ )
-						keywordsEditor.setText(keywordsEditor.getText()+keywords[i]+"\n");
-					keywordsEditor.setText(keywordsEditor.getText()+keywords[keywords.length-1]);
-					keywordsEditor.setEnabled(true);
-					keywordsEditor.setFocusableInTouchMode(true);
-				}else{
-					keywordsEditor.setEnabled(false);
-					keywordsEditor.setFocusable(false);
-				}
-				keywordsCaption.setEnabled(true);
-				keywordsCaption.getChildAt(0).setEnabled(true);
-				keywordsCaption.getChildAt(1).setEnabled(true);
 				popupCheckbox.setEnabled(true);
 				popupCheckbox.setChecked(prefs.isPopupAllowed(filter));
 				popupCaption.setEnabled(true);
@@ -317,6 +326,8 @@ public class EditFilterActivity extends Activity {
 	}
 	
 	public void chooseApp(View view){
+        if(filter==9999)
+            return;
 		leaveToast.cancel();
 		startActivityForResult(new Intent(this, AppPicker.class).putExtra("filter", filter), 42);
 	}
@@ -331,8 +342,8 @@ public class EditFilterActivity extends Activity {
 	void apply(){
 		if( filter == prefs.getNumberOfFilters() ){
 			if( !popupCheckbox.isChecked() && !lightUpCheckbox.isChecked() ){
-				Toast.makeText(this, R.string.editor_nonsense_toast1, Toast.LENGTH_LONG).show();
-				return;
+				Toast.makeText(this, "This app is now blacklisted", Toast.LENGTH_LONG).show();
+				//return;
 			}
 			if( keywordsCheckbox.isChecked() && !keywordsEditor.getText().toString().equals("") ){
 				prefs.addFilter(app, popupCheckbox.isChecked(), aggressiveCheckbox.isChecked(), expansionCheckbox.isChecked(), expandedCheckbox.isChecked(), lightUpCheckbox.isChecked(), duringCallCheckbox.isChecked(), produceKeywords(), whitelistRadiobutton.isChecked());
@@ -341,8 +352,8 @@ public class EditFilterActivity extends Activity {
 			}
 		}else{
 			if( !popupCheckbox.isChecked() && !lightUpCheckbox.isChecked() ){
-				Toast.makeText(this, R.string.editor_nonsense_toast2, Toast.LENGTH_LONG).show();
-				return;
+				Toast.makeText(this, "This app is now blacklisted", Toast.LENGTH_LONG).show();
+				//return;
 			}
 			if( keywordsCheckbox.isChecked() && !keywordsEditor.getText().toString().equals("") ){
 				prefs.editFilter(filter, app, popupCheckbox.isChecked(), aggressiveCheckbox.isChecked(), expansionCheckbox.isChecked(), expandedCheckbox.isChecked(), lightUpCheckbox.isChecked(), duringCallCheckbox.isChecked(), produceKeywords(), whitelistRadiobutton.isChecked());
@@ -410,6 +421,8 @@ public class EditFilterActivity extends Activity {
 				finish();
 				return true;
 			case R.id.editor_menu_remove:
+                if(filter==9999)
+                    return true;
 				prefs.removeFilter(filter);
 				AppPicker.appInfos = null;
 				finish();

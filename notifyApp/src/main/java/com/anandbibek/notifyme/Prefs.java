@@ -45,6 +45,10 @@ public class Prefs {
 	protected boolean isBackgroundColorInverted(){
 		return prefs.getBoolean("BackgroundInverted", true);
 	}
+
+    protected boolean isBlackListEnabled(){
+        return prefs.getBoolean("_blacklistMode", true);
+    }
 	
 	protected void setBackgroundColorInverted(boolean inverted){
 		edit.putBoolean("BackgroundInverted", inverted);
@@ -195,7 +199,8 @@ public class Prefs {
 		}
 		edit.putInt("filter"+String.valueOf(filter)+"numberOfKeywords", pos);
 		edit.putBoolean("filter"+String.valueOf(filter)+"Whitelist", filterWhitelist);
-		edit.putInt( "numberOfFilters", filter + 1 );
+        if(filter!=9999)
+		    edit.putInt( "numberOfFilters", filter + 1 );
 		edit.commit();
 	}
 	

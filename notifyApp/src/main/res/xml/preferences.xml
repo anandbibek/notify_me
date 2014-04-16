@@ -2,6 +2,21 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory
+        android:title="Notification settings">
+
+        <CheckBoxPreference
+            android:title="Show notification from all apps"
+            android:key="_blacklistMode"
+            android:summary="You can use app selection page options for blacklisting or individual preferences"
+            />
+
+        </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="Sensor settings">
+
     <CheckBoxPreference
         android:title="Enable pocket mode"
         android:defaultValue="false"
@@ -26,6 +41,12 @@
         android:defaultValue="true"
         android:key="OrientationFixed"
         />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="UI settings">
+
     <CheckBoxPreference
         android:title="@string/main_menu_popup_interface_title"
         android:summary="@string/main_menu_popup_interface_description"
@@ -38,6 +59,6 @@
         android:summary="Set a RGB value for color. Default is 24,24,24"
         android:dependency="InterfaceSlider"
         />
-
+    </PreferenceCategory>
 
 </PreferenceScreen>
