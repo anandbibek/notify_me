@@ -101,6 +101,16 @@ public class LightUp extends Activity implements SensorEventListener {
 	}
 
     @Override
+    protected void onDestroy() {
+        try{
+            mSensorManager.unregisterListener(this);
+        }catch (Exception e){
+            //just in case
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         //Log.d("Sensor value ", sensorEvent.values[0]+"");
         if( sensorEvent.values[0] < 2 /*cm*/) {
