@@ -36,151 +36,153 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public class AppPicker extends Activity{
 
-	PackageManager packMan;
-	List<ApplicationInfo> appInfos;
-	Drawable[] icons;
-	String[] appNames, appPackages;
-	ProgressDialog plsWait;
-	GetAppList stuff;
-	boolean ready;
-	int filter;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_app_picker);
-		filter = getIntent().getIntExtra("filter", -1);
-		plsWait = new ProgressDialog(this);
-        plsWait.setIndeterminate(true);
-		plsWait.setCancelable(false);
-		stuff = new GetAppList();
-	}
-	
-	@Override
-	protected void onStart(){
-		super.onStart();
-		if( appInfos != null ){
-			if( appNames[appInfos.size()-1] != null ){
-				ready = true;
-				return;
-			}
-		}
-		stuff.execute();
-	}
+    PackageManager packMan;
+    List<ApplicationInfo> appInfos;
+    //Drawable[] icons;
+    String[] appNames, appPackages;
+    ProgressDialog plsWait;
+    GetAppList stuff;
+    boolean ready;
+    int filter;
 
-	@Override
-	protected void onResume(){
-		super.onResume();
-		if( !ready ) return;
-		ArrayAdapter<String> adapter = new AppPickerAdapter(this, appNames);
-		ListView appPickerList = (ListView) findViewById(R.id.app_picker_list);
-		appPickerList.setAdapter(adapter);
-		appPickerList.setOnItemClickListener(
-			new OnItemClickListener(){
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-					String app = appPackages[position];
-					Prefs prefs = new Prefs(view.getContext());
-					for( int i = 0 ; i < prefs.getNumberOfFilters() ; i++){
-						if( app.equals(prefs.getFilterApp(i)) && i != filter ){
-							finish();
-							Toast.makeText(view.getContext(), R.string.app_picker_duplicate, Toast.LENGTH_SHORT).show();
-							return;
-						}
-					}
-					setResult(Activity.RESULT_OK, new Intent().setAction(app));
-					finish();
-				}
-			}
-		);
-		plsWait.dismiss();
-	}
-	
-	@Override
-	protected void onStop(){
-		super.onStop();
-		stuff.cancel(true);
-	}
-	
-	private class AppPickerAdapter extends ArrayAdapter<String>{
-		private final Context context;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_app_picker);
+        filter = getIntent().getIntExtra("filter", -1);
+        plsWait = new ProgressDialog(this);
+        plsWait.setCancelable(false);
+        stuff = new GetAppList();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        if( appInfos != null ){
+            if( appNames[appInfos.size()-1] != null ){
+                ready = true;
+                return;
+            }
+        }
+        stuff.execute();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if( !ready ) return;
+        ArrayAdapter<String> adapter = new AppPickerAdapter(this, appNames);
+        ListView appPickerList = (ListView) findViewById(R.id.app_picker_list);
+        appPickerList.setAdapter(adapter);
+        appPickerList.setOnItemClickListener(
+                new OnItemClickListener(){
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                        String app = appPackages[position];
+                        Prefs prefs = new Prefs(view.getContext());
+                        for( int i = 0 ; i < prefs.getNumberOfFilters() ; i++){
+                            if( app.equals(prefs.getFilterApp(i)) && i != filter ){
+                                finish();
+                                Toast.makeText(view.getContext(), R.string.app_picker_duplicate, Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                        setResult(Activity.RESULT_OK, new Intent().setAction(app));
+                        finish();
+                    }
+                }
+        );
+        plsWait.dismiss();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        stuff.cancel(true);
+    }
+
+    private class AppPickerAdapter extends ArrayAdapter<String>{
+        private final Context context;
         private final String[] appNames;
-		
-		public AppPickerAdapter(Context arg0, String[] arg1){
-			super(arg0, R.layout.list_item, arg1);
-			this.context = arg0;
+
+        public AppPickerAdapter(Context arg0, String[] arg1){
+            super(arg0, R.layout.list_item, arg1);
+            this.context = arg0;
             this.appNames = arg1;
-		}
-		
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent){
-			View itemView = ( (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ).inflate(R.layout.list_item, parent, false);
-			TextView textView = (TextView) itemView.findViewById(R.id.filter_item_name);
-			textView.setText(appNames[position]);
-			//ImageView imageView = (ImageView) itemView.findViewById(R.id.filter_item_image);
-			//imageView.setImageDrawable(icons[position]);
-			return itemView;
-		}
-	}
+        }
 
-	private class GetAppList extends AsyncTask<Void, Integer, Void>{
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent){
+            View itemView = ( (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ).inflate(R.layout.list_item, parent, false);
+            TextView textView = (TextView) itemView.findViewById(R.id.filter_item_name);
+            textView.setText(appNames[position]);
+            //ImageView imageView = (ImageView) itemView.findViewById(R.id.filter_item_image);
+            //imageView.setImageDrawable(icons[position]);
+            return itemView;
+        }
+    }
 
-		//String[] packageBuffer;
-		//Drawable[] iconBuffer;
-		
-		@Override
-		protected void onPreExecute(){
-			packMan = getPackageManager();
-			appInfos = packMan.getInstalledApplications(0);
-			publishProgress(0);
-		}
-		
-		@Override
-		protected Void doInBackground(Void... arg0) {
-            Collections.sort(appInfos,new ApplicationInfo.DisplayNameComparator(packMan));
-			appNames = new String[appInfos.size()];
-			appPackages = new String[appInfos.size()];
-			//packageBuffer = new String[appInfos.size()];
-			//icons = new Drawable[appInfos.size()];
-			//iconBuffer = new Drawable[appInfos.size()];
-			
-			for( int i = 0 ; i < appInfos.size() && !isCancelled(); i++){
-				appNames[i] = packMan.getApplicationLabel(appInfos.get(i))+"";
-				appPackages[i] = appInfos.get(i).packageName;
-				//icons[i] = packMan.getApplicationIcon(appInfos.get(i));
-				publishProgress(i+1);
-			}
+    private class GetAppList extends AsyncTask<Void, Integer, Void>{
 
-			if( isCancelled() )
-				return null;
-			publishProgress(-1);
-			return null;
-		}
-		
-		@Override
-		protected void onProgressUpdate(Integer... progress){
-			if( progress[0] == 0 ){
-				plsWait.setMax(appInfos.size());
-				plsWait.setMessage("Sorting app list");
+        String[] packageBuffer;
+        Drawable[] iconBuffer;
+
+        @Override
+        protected void onPreExecute(){
+            packMan = getPackageManager();
+            appInfos = packMan.getInstalledApplications(0);
+            publishProgress(0);
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            appNames = new String[appInfos.size()];
+            appPackages = new String[appInfos.size()];
+            packageBuffer = new String[appInfos.size()];
+            //icons = new Drawable[appInfos.size()];
+            //iconBuffer = new Drawable[appInfos.size()];
+
+            for( int i = 0 ; i < appInfos.size() && !isCancelled(); i++){
+                appNames[i] = packMan.getApplicationLabel(appInfos.get(i)).toString()+" "+String.valueOf(i);
+                packageBuffer[i] = appInfos.get(i).packageName;
+                //iconBuffer[i] = packMan.getApplicationIcon(appInfos.get(i));
+                publishProgress(i+1);
+            }
+            Arrays.sort(appNames);
+            int j;
+            for( int i = 0 ; i < appInfos.size() ; i++ ){
+                j = Integer.parseInt(appNames[i].substring(appNames[i].lastIndexOf(" ")+1));
+                appPackages[i] = packageBuffer[j];
+                //icons[i] = iconBuffer[j];
+                appNames[i] = appNames[i].substring(0, appNames[i].lastIndexOf(" "));
+                publishProgress(i+1);
+            }
+            if( isCancelled() )
+                return null;
+            publishProgress(-1);
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... progress){
+            if( progress[0] == 0 ){
+                plsWait.setMax(appInfos.size());
+                plsWait.setMessage(getText(R.string.app_picker_retrieve));
                 plsWait.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 plsWait.show();
-			}else if(progress[0]==1){
-                plsWait.setIndeterminate(false);
-                plsWait.setMessage(getText(R.string.app_picker_retrieve));
-                plsWait.setProgress(progress[0]);
             }else if( progress[0] == -1 ){
-				ready = true;
-				onResume();
-			}
-			else{
-				plsWait.setProgress(progress[0]);
-			}
-		}
-		
-	}
+                ready = true;
+                onResume();
+            }
+            else{
+                plsWait.setProgress(progress[0]);
+            }
+        }
+
+    }
 }
