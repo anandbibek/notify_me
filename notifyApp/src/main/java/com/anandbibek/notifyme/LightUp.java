@@ -86,6 +86,11 @@ public class LightUp extends Activity implements SensorEventListener {
 
 	@Override
 	protected void onNewIntent(Intent intent){
+        try{
+            mSensorManager.unregisterListener(this);
+        }catch (Exception e){
+            //just in case
+        }
 		if(countdown) {
             handler.removeCallbacksAndMessages(null);
 			finish();
