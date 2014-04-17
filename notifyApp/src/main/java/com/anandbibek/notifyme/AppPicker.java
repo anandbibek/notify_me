@@ -32,12 +32,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class AppPicker extends Activity{
@@ -57,6 +56,7 @@ public class AppPicker extends Activity{
 		setContentView(R.layout.activity_app_picker);
 		filter = getIntent().getIntExtra("filter", -1);
 		plsWait = new ProgressDialog(this);
+        plsWait.setIndeterminate(true);
 		plsWait.setCancelable(false);
 		stuff = new GetAppList();
 	}
@@ -109,12 +109,12 @@ public class AppPicker extends Activity{
 	
 	private class AppPickerAdapter extends ArrayAdapter<String>{
 		private final Context context;
-		private final String[] appNames;
+        private final String[] appNames;
 		
 		public AppPickerAdapter(Context arg0, String[] arg1){
 			super(arg0, R.layout.list_item, arg1);
 			this.context = arg0;
-			this.appNames = arg1;
+            this.appNames = arg1;
 		}
 		
 		@Override
@@ -122,16 +122,16 @@ public class AppPicker extends Activity{
 			View itemView = ( (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ).inflate(R.layout.list_item, parent, false);
 			TextView textView = (TextView) itemView.findViewById(R.id.filter_item_name);
 			textView.setText(appNames[position]);
-			ImageView imageView = (ImageView) itemView.findViewById(R.id.filter_item_image);
-			imageView.setImageDrawable(icons[position]);
+			//ImageView imageView = (ImageView) itemView.findViewById(R.id.filter_item_image);
+			//imageView.setImageDrawable(icons[position]);
 			return itemView;
 		}
 	}
 
 	private class GetAppList extends AsyncTask<Void, Integer, Void>{
 
-		String[] packageBuffer;
-		Drawable[] iconBuffer;
+		//String[] packageBuffer;
+		//Drawable[] iconBuffer;
 		
 		@Override
 		protected void onPreExecute(){
@@ -142,27 +142,20 @@ public class AppPicker extends Activity{
 		
 		@Override
 		protected Void doInBackground(Void... arg0) {
+            Collections.sort(appInfos,new ApplicationInfo.DisplayNameComparator(packMan));
 			appNames = new String[appInfos.size()];
 			appPackages = new String[appInfos.size()];
-			packageBuffer = new String[appInfos.size()];
-			icons = new Drawable[appInfos.size()];
-			iconBuffer = new Drawable[appInfos.size()];
+			//packageBuffer = new String[appInfos.size()];
+			//icons = new Drawable[appInfos.size()];
+			//iconBuffer = new Drawable[appInfos.size()];
 			
 			for( int i = 0 ; i < appInfos.size() && !isCancelled(); i++){
-				appNames[i] = packMan.getApplicationLabel(appInfos.get(i)).toString()+" "+String.valueOf(i);
-				packageBuffer[i] = appInfos.get(i).packageName;
-				iconBuffer[i] = packMan.getApplicationIcon(appInfos.get(i));
+				appNames[i] = packMan.getApplicationLabel(appInfos.get(i))+"";
+				appPackages[i] = appInfos.get(i).packageName;
+				//icons[i] = packMan.getApplicationIcon(appInfos.get(i));
 				publishProgress(i+1);
 			}
-			Arrays.sort(appNames);
-			int j;
-			for( int i = 0 ; i < appInfos.size() ; i++ ){
-				j = Integer.parseInt(appNames[i].substring(appNames[i].lastIndexOf(" ")+1));
-				appPackages[i] = packageBuffer[j];
-				icons[i] = iconBuffer[j];
-				appNames[i] = appNames[i].substring(0, appNames[i].lastIndexOf(" "));
-				publishProgress(i+1);
-			}
+
 			if( isCancelled() )
 				return null;
 			publishProgress(-1);
@@ -173,10 +166,14 @@ public class AppPicker extends Activity{
 		protected void onProgressUpdate(Integer... progress){
 			if( progress[0] == 0 ){
 				plsWait.setMax(appInfos.size());
-				plsWait.setMessage(getText(R.string.app_picker_retrieve));
-				plsWait.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-				plsWait.show();
-			}else if( progress[0] == -1 ){
+				plsWait.setMessage("Sorting app list");
+                plsWait.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                plsWait.show();
+			}else if(progress[0]==1){
+                plsWait.setIndeterminate(false);
+                plsWait.setMessage(getText(R.string.app_picker_retrieve));
+                plsWait.setProgress(progress[0]);
+            }else if( progress[0] == -1 ){
 				ready = true;
 				onResume();
 			}
