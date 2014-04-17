@@ -88,6 +88,11 @@ public class EditFilterActivity extends Activity {
 		popupCaption = (LinearLayout) findViewById(R.id.editor_popup_caption);
 		aggressiveCheckbox = (CheckBox) findViewById(R.id.editor_aggressive_checkbox);
 		aggressiveCaption = (LinearLayout) findViewById(R.id.editor_aggressive_caption);
+
+        //not suitable for common user
+        aggressiveCaption.setVisibility(View.GONE);
+        aggressiveCheckbox.setVisibility(View.GONE);
+
 		expansionCheckbox = (CheckBox) findViewById(R.id.editor_expansion_checkbox);
 		expansionCaption = (LinearLayout) findViewById(R.id.editor_expansion_caption);
 		expandedCheckbox = (CheckBox) findViewById(R.id.editor_expanded_checkbox);
@@ -96,6 +101,11 @@ public class EditFilterActivity extends Activity {
 		lightUpCaption = (LinearLayout) findViewById(R.id.editor_lightup_caption);
 		duringCallCheckbox = (CheckBox) findViewById(R.id.editor_duringcall_checkbox);
 		duringCallCaption = (LinearLayout) findViewById(R.id.editor_duringcall_caption);
+
+        //not suitable for common user
+        duringCallCaption.setVisibility(View.GONE);
+        duringCallCheckbox.setVisibility(View.GONE);
+
 		if( getIntent().getAction().equals("edit") ){
 			filter = getIntent().getIntExtra("filter", 0);
 			app = prefs.getFilterApp(filter);
@@ -135,6 +145,9 @@ public class EditFilterActivity extends Activity {
                     appNameView.setText("Default config");
                     keywordsCheckbox.setEnabled(false);
                     keywordsCheckbox.setChecked(false);
+                    keywordsCaption.setEnabled(false);
+                    keywordsCaption.getChildAt(0).setEnabled(false);
+                    keywordsCaption.getChildAt(1).setEnabled(false);
                 }
                 else {
                     ApplicationInfo appInfo = packMan.getApplicationInfo(app, 0);

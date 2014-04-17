@@ -178,7 +178,8 @@ public class Prefs {
 		edit.putBoolean("filter"+String.valueOf(filter)+"Expanded", expanded);
 		edit.putBoolean("filter"+String.valueOf(filter)+"Light", lightUpAllowed);
 		edit.putBoolean("filter"+String.valueOf(filter)+"Call", duringCall);
-		edit.putInt( "numberOfFilters", filter + 1 );
+        if(filter!=9999)
+            edit.putInt( "numberOfFilters", filter + 1 );
 		edit.commit();
 	}
 
