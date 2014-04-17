@@ -57,28 +57,31 @@ public class NotificationService extends AccessibilityService {
 		if( !event.getClassName().equals("android.app.Notification") )
 			return;
 
-        if( filterMatch(event, true) ){
-            //jump down to trigger if aggressive popup is allowed
-			if( prefs.isAggressive(filter) )
-                ;
+        //in case of special notifications like IME / data
+        int flags = ((Notification)event.getParcelableData()).flags;
+        if( ((flags & Notification.FLAG_ONGOING_EVENT)==Notification.FLAG_ONGOING_EVENT) || ((flags & Notification.FLAG_NO_CLEAR)==Notification.FLAG_NO_CLEAR) )
+            return;
 
-            //do not trigger otherwise if screen on and not on lockscreen
-			else if( ((PowerManager)getSystemService(POWER_SERVICE)).isScreenOn()
+//jump down to trigger if aggressive popup is allowed
+//            if( prefs.isAggressive(filter) )
+//                return;
+//disable aggressive popup as people are making a mess out of it
+
+
+            //do not trigger if screen on and on lockscreen
+			if( ((PowerManager)getSystemService(POWER_SERVICE)).isScreenOn()
                     //&& !((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()
-                    //how about showing popup even if in keyguard scrreen? //TODO get feedback
                     )
 				return;
 
-		}else
-			return;
-
         //if during call allowed, or no call ongoing, trigger!
-		if( filterMatch(event, false) && ( prefs.isDuringCallAllowed(filter) || ((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getCallState() == 0 ) )
+        //disable during-call popups
+		if( filterMatch(event) && ( ((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getCallState() == 0 ) )
             triggerNotification(event);
 	}
 
 	@SuppressLint("NewApi")
-	private boolean filterMatch(AccessibilityEvent event, boolean nameOnly) {
+	private boolean filterMatch(AccessibilityEvent event) {
 
 		boolean filterMatch = false;
         boolean noBlacklistedWord = true;
@@ -86,7 +89,7 @@ public class NotificationService extends AccessibilityService {
 		for( int i = 0; i < prefs.getNumberOfFilters() && !filterMatch; i++ ){
 			if( event.getPackageName().equals(prefs.getFilterApp(i)) ){
 				filter = i;
-				if( prefs.hasFilterKeywords(i) && !nameOnly ){
+				if( prefs.hasFilterKeywords(i)){
 					filterMatch = !prefs.isFilterWhitelist(filter);
 					String notificationContents = ( event.getText().size() == 0 ? "" : event.getText().get(0).toString() );
 					try{
