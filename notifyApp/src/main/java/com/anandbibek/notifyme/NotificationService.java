@@ -70,7 +70,7 @@ public class NotificationService extends AccessibilityService {
 
             //do not trigger if screen on and on lockscreen
 			if( ((PowerManager)getSystemService(POWER_SERVICE)).isScreenOn()
-                    //&& !((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()
+                    && !((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()
                     )
 				return;
 
