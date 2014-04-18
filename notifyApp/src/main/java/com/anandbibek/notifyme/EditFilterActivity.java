@@ -142,7 +142,7 @@ public class EditFilterActivity extends Activity {
 		if( app != null ){
 			try {
                 if(filter==9999){
-                    appNameView.setText("Default config");
+                    appChooserButton.setVisibility(View.GONE);
                     keywordsCheckbox.setEnabled(false);
                     keywordsCheckbox.setChecked(false);
                     keywordsCaption.setEnabled(false);

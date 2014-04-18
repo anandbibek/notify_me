@@ -116,8 +116,7 @@ public class MainActivity extends Activity {
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 					Intent editFilterIntent = new Intent(parent.getContext(), EditFilterActivity.class);
 					if( position == prefs.getNumberOfFilters() ){
-                        editFilterIntent.setAction("edit");
-                        editFilterIntent.putExtra("filter", 9999);
+                        editFilterIntent.setAction("new");
 					}else{
 						editFilterIntent.setAction("edit");
 						editFilterIntent.putExtra("filter", position);
@@ -177,8 +176,8 @@ public class MainActivity extends Activity {
 			TextView textView = (TextView) itemView.findViewById(R.id.filter_item_name);
 			ImageView imageView = (ImageView) itemView.findViewById(R.id.filter_item_image);
 			if( values[position].equals("JOKER") ){
-				textView.setText("Default preferences");
-				imageView.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_preferences));
+				textView.setText(R.string.main_add_to_list);
+				imageView.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_add));
 				return itemView;
 			}
 			ApplicationInfo appInfo;
@@ -266,8 +265,10 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item){
 		
 		switch(item.getItemId()){
-            case R.id.add_app:
-                startActivity(new Intent(this, EditFilterActivity.class).setAction("new"));
+            case R.id.def_settings:
+                startActivity(new Intent(this, EditFilterActivity.class)
+                        .putExtra("filter", 9999)
+                        .setAction("edit"));
                 return true;
 
             case R.id.main_menu_settings:

@@ -2,17 +2,26 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
+    <PreferenceScreen
         android:title="Notification settings">
 
         <CheckBoxPreference
             android:title="Show notification from all apps"
             android:key="_blacklistMode"
-            android:defaultValue="true"
-            android:summary="You can use app selection page options for blacklisting or individual preferences"
+            android:defaultValue="false"
+            android:summary="Use this option wisely"
             />
 
-        </PreferenceCategory>
+
+        <Preference
+            android:title="Default alert style"
+            android:summary="For apps that do not have individual settings configured in main screen"
+            android:key="defaultSettings"
+            android:dependency="_blacklistMode"
+            />
+
+
+        </PreferenceScreen>
 
 
     <PreferenceCategory
