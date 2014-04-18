@@ -62,6 +62,9 @@ public class NotificationService extends AccessibilityService {
         if( ((flags & Notification.FLAG_ONGOING_EVENT)==Notification.FLAG_ONGOING_EVENT) || ((flags & Notification.FLAG_NO_CLEAR)==Notification.FLAG_NO_CLEAR) )
             return;
 
+        if(!prefs.isLowPriorityEnabled() && ((Notification)event.getParcelableData()).priority < 0 )
+            return;
+
 //jump down to trigger if aggressive popup is allowed
 //            if( prefs.isAggressive(filter) )
 //                return;

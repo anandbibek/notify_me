@@ -47,7 +47,11 @@ public class Prefs {
 	}
 
     protected boolean isBlackListEnabled(){
-        return prefs.getBoolean("_blacklistMode", true);
+        return prefs.getBoolean("_blacklistMode", false);
+    }
+
+    protected boolean isLowPriorityEnabled(){
+        return prefs.getBoolean("lowPriority",false);
     }
 	
 	protected void setBackgroundColorInverted(boolean inverted){
