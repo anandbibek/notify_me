@@ -3,7 +3,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceScreen
-        android:title="Notification settings">
+        android:title="Notification settings"
+        android:summary="Configure which notifications to show and how">
 
         <CheckBoxPreference
             android:title="Show notification from all apps"
