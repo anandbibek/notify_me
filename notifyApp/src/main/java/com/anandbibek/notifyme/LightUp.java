@@ -38,16 +38,15 @@ public class LightUp extends Activity implements SensorEventListener {
     boolean mCovered;
     private SensorManager mSensorManager;
     private Handler handler;
+    private screenOnListener listener;
 
     private class screenOnListener extends BroadcastReceiver{
         @Override
         public void onReceive(Context arg0, Intent arg1) {
-            if( ((TelephonyManager)arg0.getSystemService(Context.TELEPHONY_SERVICE)).getCallState() != 0 ){
-                arg0.unregisterReceiver(this);
-                return;
-            }
-            startActivity(new Intent(arg0, NotificationActivity.class ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             arg0.unregisterReceiver(this);
+            if( ((TelephonyManager)arg0.getSystemService(Context.TELEPHONY_SERVICE)).getCallState() == 0 ){
+                startActivity(new Intent(arg0, NotificationActivity.class ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
         }
     }
 
@@ -58,10 +57,10 @@ public class LightUp extends Activity implements SensorEventListener {
         countdown = false;
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if(mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null && new Prefs(this).isProximityEnabled()) {
+        if(new Prefs(this).isProximityEnabled() && mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null) {
             //sensor present AND enabled
             mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
-                    , mSensorManager.SENSOR_DELAY_NORMAL);
+                    , mSensorManager.SENSOR_DELAY_GAME);
         }
         else {
             //Proximity sensor not present OR disabled
@@ -86,18 +85,25 @@ public class LightUp extends Activity implements SensorEventListener {
 
 	@Override
 	protected void onNewIntent(Intent intent){
+
+
+        try{
+            unregisterReceiver(listener);
+        }catch (Exception e){
+            //just in case
+        }
         try{
             mSensorManager.unregisterListener(this);
         }catch (Exception e){
             //just in case
         }
-		if(countdown) {
+
+		if(countdown)
             handler.removeCallbacksAndMessages(null);
-			finish();
-			startActivity(intent);
-		}else
-			super.onNewIntent(intent);
-        //TODO check
+
+        //TODO here we will implement multi notifications
+        finish();
+        startActivity(intent);
 	}
 
     @Override
@@ -113,9 +119,9 @@ public class LightUp extends Activity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         //Log.d("Sensor value ", sensorEvent.values[0]+"");
-        if( sensorEvent.values[0] < 2 /*cm*/) {
+        if( sensorEvent.values[0] < mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY).getMaximumRange() /*cm*/) {
             //device in pocket
-            //Log.d("In pocket ", System.currentTimeMillis()+"");
+            //Log.d("In pocket ", mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY).getMaximumRange() + "");
             if(!countdown){
                 mCovered=true;
                 countdown=true;
@@ -150,7 +156,7 @@ public class LightUp extends Activity implements SensorEventListener {
                     //}
                     finish();
                 }
-            },200); //TODO verify if delay is enough
+            },100); //TODO verify if delay is enough
         }
     }
 
@@ -171,7 +177,9 @@ public class LightUp extends Activity implements SensorEventListener {
                 //Log.d("Unregistered ", System.currentTimeMillis()+"");
                 IntentFilter iFilter = new IntentFilter();
                 iFilter.addAction(Intent.ACTION_SCREEN_ON);
-                registerReceiver(new screenOnListener(), iFilter);
+
+                listener = new screenOnListener();
+                registerReceiver(listener, iFilter);
                 countdown = false;
                 //Log.d("Registered  broadcast receiver",System.currentTimeMillis()+"");
             }
