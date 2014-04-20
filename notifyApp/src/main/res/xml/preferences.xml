@@ -8,14 +8,14 @@
 
         <CheckBoxPreference
             android:title="Show notification from all apps"
-            android:key="_blacklistMode"
+            android:key="_blacklistMode1"
             android:defaultValue="false"
             android:summary="Use this option wisely"
             />
 
         <CheckBoxPreference
             android:title="Show low priority notifications"
-            android:dependency="_blacklistMode"
+            android:dependency="_blacklistMode1"
             android:key="lowPriority"
             android:defaultValue="false"
             android:summary="For example, Google Now alerts"
@@ -25,7 +25,7 @@
             android:title="Default alert style"
             android:summary="For apps that do not have individual settings configured in main screen"
             android:key="defaultSettings"
-            android:dependency="_blacklistMode"
+            android:dependency="_blacklistMode1"
             />
 
 
