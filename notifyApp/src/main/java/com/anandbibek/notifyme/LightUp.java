@@ -98,12 +98,13 @@ public class LightUp extends Activity implements SensorEventListener {
             //just in case
         }
 
-		if(countdown)
+		if(countdown) {
             handler.removeCallbacksAndMessages(null);
-
-        //TODO here we will implement multi notifications
-        finish();
-        startActivity(intent);
+            finish();
+            startActivity(intent);
+        }else {
+            super.onNewIntent(intent);
+        }
 	}
 
     @Override
@@ -179,7 +180,7 @@ public class LightUp extends Activity implements SensorEventListener {
                 iFilter.addAction(Intent.ACTION_SCREEN_ON);
 
                 listener = new screenOnListener();
-                registerReceiver(listener, iFilter);
+                context.registerReceiver(listener, iFilter);
                 countdown = false;
                 //Log.d("Registered  broadcast receiver",System.currentTimeMillis()+"");
             }

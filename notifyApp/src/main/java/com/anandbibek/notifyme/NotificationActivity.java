@@ -259,11 +259,13 @@ public class NotificationActivity extends Activity {
 	
 	@Override
 	protected void onNewIntent(Intent intent){
-		if( !getIntent().equals(intent) ){
-			finish();
-			startActivity(intent);
-		}else
-			super.onNewIntent(intent);
+		if( !getIntent().equals(intent) ) {
+            finish();
+            startActivity(intent);
+        }
+		//}else
+		//	super.onNewIntent(intent);
+            //TODO verify double stuff
 	}
 
     public void setLayoutListener(){
