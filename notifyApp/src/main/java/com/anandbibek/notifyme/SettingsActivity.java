@@ -1,6 +1,7 @@
 package com.anandbibek.notifyme;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -29,6 +30,11 @@ public class SettingsActivity extends PreferenceActivity {
                 return false;
             }
         });
+
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.JELLY_BEAN){
+            findPreference("lowPriority").setEnabled(false);
+            findPreference("lowPriority").setSummary("Only available on Android 4.1 or above");
+        }
 
     }
 

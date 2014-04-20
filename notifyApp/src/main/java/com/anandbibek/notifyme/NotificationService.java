@@ -26,6 +26,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.PowerManager;
 import android.telephony.TelephonyManager;
 import android.view.ViewGroup;
@@ -57,13 +58,24 @@ public class NotificationService extends AccessibilityService {
 		if( !event.getClassName().equals("android.app.Notification") )
 			return;
 
-        //in case of special notifications like IME / data
-        int flags = ((Notification)event.getParcelableData()).flags;
-        if( ((flags & Notification.FLAG_ONGOING_EVENT)==Notification.FLAG_ONGOING_EVENT) || ((flags & Notification.FLAG_NO_CLEAR)==Notification.FLAG_NO_CLEAR) )
-            return;
+        if(prefs.isBlackListEnabled()) {
+            Notification notification = (Notification) event.getParcelableData();
+            //in case of special notifications like IME / data
+            try {
+                int flags = notification.flags;
+                if (((flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) || ((flags & Notification.FLAG_NO_CLEAR) == Notification.FLAG_NO_CLEAR))
+                    return;
+            } catch (Exception e) {
+                //
+            }
 
-        if(!prefs.isLowPriorityEnabled() && ((Notification)event.getParcelableData()).priority < 0 )
-            return;
+            try {
+                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN && !prefs.isLowPriorityEnabled() && notification.priority < 0)
+                    return;
+            } catch (Exception e) {
+                //
+            }
+        }
 
 //jump down to trigger if aggressive popup is allowed
 //            if( prefs.isAggressive(filter) )
