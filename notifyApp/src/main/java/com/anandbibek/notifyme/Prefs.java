@@ -47,7 +47,7 @@ public class Prefs {
 	}
 
     protected boolean isBlackListEnabled(){
-        return prefs.getBoolean("_blacklistMode1", false);
+        return prefs.getBoolean("_blacklistMode", true);
     }
 
     protected boolean isLowPriorityEnabled(){

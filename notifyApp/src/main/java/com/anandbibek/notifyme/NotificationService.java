@@ -83,7 +83,7 @@ public class NotificationService extends AccessibilityService {
 //disable aggressive popup as people are making a mess out of it
 
 
-            //do not trigger if screen on and on lockscreen
+            //do not trigger if screen on and not on lockscreen
 			if( ((PowerManager)getSystemService(POWER_SERVICE)).isScreenOn()
                     && !((KeyguardManager)getSystemService(KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()
                     )
