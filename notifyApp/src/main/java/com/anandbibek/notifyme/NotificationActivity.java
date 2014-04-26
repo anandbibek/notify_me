@@ -259,13 +259,15 @@ public class NotificationActivity extends Activity {
 	
 	@Override
 	protected void onNewIntent(Intent intent){
-		if( !getIntent().equals(intent) ) {
-            finish();
-            startActivity(intent);
-        }
+		//if( !getIntent().equals(intent) ) {
+        if( dialog != null )
+            dialog.dismiss();
+        finish();
+        startActivity(intent);
+        //}
 		//}else
 		//	super.onNewIntent(intent);
-            //TODO verify double stuff
+        //TODO verify double stuff
 	}
 
     public void setLayoutListener(){
