@@ -100,11 +100,12 @@ public class LightUp extends Activity implements SensorEventListener {
 
 		if(countdown) {
             handler.removeCallbacksAndMessages(null);
-            finish();
-            startActivity(intent);
-        }else {
-            super.onNewIntent(intent);
         }
+        finish();
+        startActivity(intent);
+//        }else {
+//            super.onNewIntent(intent);
+//        }
 	}
 
     @Override
